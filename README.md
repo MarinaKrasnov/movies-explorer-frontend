@@ -7,12 +7,14 @@ Demo link
 
 Description
 
-Frontend for movies-explorer project
+Backend for movie-explorer project
 
 Technologies
 
-JS * React * 
+JS * React * Node * Express
+MongoDB * authorization
+** Demo Link**
 
- https://catalog.nomoredomains.sbs
+api: https://api.catalog.nomoredomains.sbs
 
 62.84.122.209
