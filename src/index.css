@@ -117,7 +117,7 @@
     --about-project-container-item-padding-right: 120px;
     --margin-bottom-title: 70px;
     --margin-top-title: 110px;
-
+    --width-movies-card-list-more: 320px;
 
 
 }
@@ -200,5 +200,6 @@
         --margin-bottom-promo-subtitle: 80px;
         --margin-bottom-title: 60px;
         --margin-top-title: 70px;
+        --width-movies-card-list-more: 240px;
     }
 }

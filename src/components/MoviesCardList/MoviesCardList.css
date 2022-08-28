@@ -25,3 +25,25 @@
         row-gap: 39px;
     }
 }
+
+.movies-card-list__container-more {
+    width: 100%;
+    height: 166px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.movies-card-list__more {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 36px;
+    height: 36px;
+    width: var(--width-movies-card-list-more);
+    border: 1px solid #E8E8E8;
+    text-align: center;
+}
+
+.movies-card-list__container-more_visible {
+    display: flex;
+}
