@@ -18,3 +18,8 @@
     visibility: visible;
     opacity: 1;
 }
+
+.popup {
+    display: flex;
+    justify-content: center;
+}

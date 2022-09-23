@@ -36,7 +36,7 @@ function Profile({ onEdit, signOut }) {
                 id="name"
                 name="name"
                 type="name"
-                value={state.name}
+                defaultValue={state.name}
                 onChange={handleChange}
                 className=" profile__input"
                 placeholder={currentUser.name}
@@ -49,7 +49,7 @@ function Profile({ onEdit, signOut }) {
                 id="email"
                 name="email"
                 type="email"
-                value={state.email}
+                defaultValue={state.email}
                 onChange={handleChange}
                 className="profile__input"
                 placeholder={currentUser.email}

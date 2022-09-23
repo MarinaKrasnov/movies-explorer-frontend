@@ -1,23 +1,64 @@
 import React from "react";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import "./MoviesCardList.css";
-
-function MoviesCardList({ movies }) {
-  const showned =
-    window.innerWidth < 437 ? 4 : window.innerWidth < 837 ? 7 : 11;
-  const isMore =
-    window.innerWidth < 437 && movies.length > 5
-      ? true
-      : window.innerWidth < 837 && movies.length > 8
-      ? true
-      : window.innerWidth > 837 && movies.length > 12
-      ? true
-      : false;
+import { useLocation } from "react-router-dom";
+function MoviesCardList({
+  movies,
+  screenSize,
+  jwt,
+  savedMovies,
+  setSavedMovies,
+  getSavedMoviesData,
+  setMovies,
+}) {
+  //Constants
+  const [showned, setNumberOfShowed] = React.useState(5);
+  const [isMore, setMore] = React.useState(false);
+  const location = useLocation();
+  const moviesList =
+    location.pathname === "/saved-movies" ? savedMovies : movies;
+  //Effects
+  React.useEffect(() => {
+    let numderOfShowned = screenSize < 437 ? 5 : screenSize < 837 ? 8 : 12;
+    setNumberOfShowed(numderOfShowned);
+  }, [screenSize]);
+  React.useEffect(() => {
+    let isThereMore =
+      screenSize < 437 && moviesList.length > 5
+        ? true
+        : screenSize < 837 && moviesList.length > 8
+        ? true
+        : screenSize > 837 && moviesList.length > 12
+        ? true
+        : false;
+    setMore(isThereMore);
+  }, [isMore, screenSize, moviesList.length]);
+  //Handlers
+  const handleMoreClick = () => {
+    const moreNumber = screenSize < 437 ? 2 : screenSize < 837 ? 4 : 6;
+    let newShowned = showned + moreNumber;
+    if (newShowned >= moviesList.length) {
+      newShowned = moviesList.length;
+      setMore(false);
+    }
+    setNumberOfShowed(newShowned);
+    return;
+  };
   return (
     <>
       <section className="movies-card-list">
-        {movies
-          .map((item) => <MoviesCard item={item} key={item.movieId} />)
+        {moviesList
+          .map((item) => (
+            <MoviesCard
+              item={item}
+              key={item._id || item.movieId}
+              jwt={jwt}
+              setSavedMovies={setSavedMovies}
+              savedMovies={savedMovies}
+              getSavedMoviesData={getSavedMoviesData}
+              setMovies={setMovies}
+            />
+          ))
           .slice(0, showned)}
       </section>
       <div
@@ -25,7 +66,9 @@ function MoviesCardList({ movies }) {
           isMore ? "movies-card-list__container-more_visible" : ""
         }`}
       >
-        <p className="movies-card-list__more">Ещё</p>
+        <button className="button" onClick={handleMoreClick}>
+          <p className="movies-card-list__more">Ещё</p>
+        </button>
       </div>
     </>
   );

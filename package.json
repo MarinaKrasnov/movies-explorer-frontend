@@ -40,8 +40,19 @@
     ]
   },
   "devDependencies": {
+    "eslint-plugin-react-hooks": "^4.6.0",
     "gh-pages": "^4.0.0"
   },
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  },
+  "plugins": [
+    "react-hooks"
+  ],
+  "extends": [
+    "plugin:react-hooks/recommended"
+  ],
   "description": "### Overview",
   "main": "index.js",
   "repository": {

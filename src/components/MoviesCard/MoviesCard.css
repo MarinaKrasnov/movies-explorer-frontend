@@ -39,15 +39,16 @@
 
 .movies-card__button-delete {
     background-image: url(../../images/delete.svg);
-    background-position: top right;
+    /*     background-position: top right; */
+    background-position: center;
     background-repeat: no-repeat;
     border: none;
     flex-shrink: 2;
-    width: 18px;
-    height: 19px;
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 14px;
+    right: 14px;
+    height: 21px;
+    width: 21px;
 }
 
 .movies-card__button-delete:hover {

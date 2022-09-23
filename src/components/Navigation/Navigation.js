@@ -4,27 +4,28 @@ import { Link } from "react-router-dom";
 
 function Navigation({ isPopupOpen, onClose }) {
   return (
-    <div className={`navigation ${isPopupOpen && "navigation_active"}`}>
-      <div className="popup">
+    <div
+      className={`navigation ${isPopupOpen && "navigation_active"}`}
+      onClick={onClose}
+    >
+      <div className="popup" onClick={(e) => e.stopPropagation()}>
         <div className="navigation__container">
-          <Link to="" className="link">
+          <Link to="/" className="link" onClick={onClose}>
             <p>Главная</p>
           </Link>
-          <Link to="movies" className="link">
-            <p className="underline">Фильмы</p>
+          <Link to="movies" className="link" onClick={onClose}>
+            <p>Фильмы</p>
           </Link>
-          <Link to="saved-movies" className="link">
+          <Link to="saved-movies" className="link" onClick={onClose}>
             <p>Сохранённые фильмы</p>
           </Link>
         </div>
         <Link to="profile">
-          <button className="button button_type_nav ">Аккаунт</button>
+          <button className="button button_type_nav " onClick={onClose}>
+            Аккаунт
+          </button>
         </Link>
-        <button
-          type="button"
-          className="button navigation__close-btn"
-          onClick={onClose}
-        />
+        <button type="button" className="button close-btn" onClick={onClose} />
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 .navigation {
     position: fixed;
-    /* position: absolute;*/
     display: flex;
     top: 0;
     bottom: 0;
@@ -11,15 +10,18 @@
     visibility: hidden;
     align-items: center;
     opacity: 0;
-    transition: ease .9s opacity;
+    transition: ease .9s transform;
+    transform: translateX(100%);
 }
 
 .navigation_active {
     visibility: visible;
     opacity: 1;
+    transform: translateX(0);
+
 }
 
-.navigation__close-btn {
+.close-btn {
     position: absolute;
     background-image: url(../../images/delete-btn.svg);
     background-repeat: no-repeat;
@@ -32,7 +34,7 @@
 
 
 @media (max-width:665px) {
-    .navigation__close-btn {
+    .close-btn {
         top: 13px;
         right: 13px;
     }
@@ -62,9 +64,7 @@
 @media (max-width:437px) {
     .popup {
         padding: 144px 10px 46px 10px;
-
     }
-
 }
 
 .navigation__container {

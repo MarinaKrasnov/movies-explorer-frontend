@@ -13,6 +13,11 @@
 .link:hover {
     opacity: .8;
     cursor: pointer;
+    text-decoration: underline;
+}
+
+.link:focus {
+    text-decoration: underline;
 }
 
 .link {
@@ -23,10 +28,6 @@
 
 .font-500 {
     font-weight: 500;
-}
-
-.underline {
-    text-decoration: underline;
 }
 
 .button:hover {
