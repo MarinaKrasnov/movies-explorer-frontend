@@ -1,19 +1,62 @@
 .header {
-    background-color: #000;
-    color: #FFFFFF;
     display: flex;
     flex-direction: row;
     align-items: center;
+    padding-left: var(--padding-side-default);
+    padding-right: var(--padding-side-default);
+    height: 74px;
+    font-size: var(--text-size-xs);
+    line-height: var(--text-line-height-xs);
+    justify-content: space-between;
+    color: black
 }
 
 .header__logo {
-    /*   width: 38px;
+    width: 38px;
     height: 38px;
     margin-top: 18px;
-    margin-bottom: 18px; */
+    margin-bottom: 18px;
+    margin-right: 28px;
+}
+
+.header__link {
+    margin-left: 16px;
+    font-size: 13px;
+    line-height: 1.14;
+}
+
+.header_type_main {
+    color: #FFFFFF;
+    background-color: #073042;
+}
+
+.header_type_loggedin {
+    justify-content: flex-start;
+}
+
+.header__signin {
+    color: black;
+    background: #2BE080;
+    border-radius: 3px;
+    Width: 76px;
+    Height: 32px;
+    border-color: #2BE080;
+}
+
+.header__account {
+    background: #F9F9F9;
+    border-radius: 20px;
 }
 
 .header__button {
-    /*     margin-top: 21px;
-    margin-bottom: 21px; */
+    position: absolute;
+    top: 21px;
+    right: var(--padding-side-default);
+    width: 100px;
+    height: 32px;
+    border-radius: 20px;
+    background-color: #F9F9F9;
+    font-size: var(--text4-size-s);
+    line-height: 16px;
+    font-weight: 500;
 }

@@ -1,15 +1,22 @@
-import React from 'react'
-import logo from '../images/logo.svg'
-import Footer from './Footer.css'
+import React from "react";
+import "./Footer.css";
 
-function Footer ({ children, className }) {
+function Footer() {
+  const date = new Date().getFullYear();
   return (
-    <Footer className={`footer ${className}`}>
-      <img className='footer__logo' src={logo} alt='Логотип' />
-          {children}
-          <button className='footer__button'>Акаунт</button>
-    </Footer>
-  )
+    <footer className="footer">
+      <p className="footer__title">
+        Учебный проект Яндекс.Практикум х BeatFilm.
+      </p>
+      <div className="footer__bottom">
+        <p className=" footer_link footer__copyright">©{date}</p>
+        <div className="footer__right-container">
+          <p className="footer_link"> Яндекс.Практикум </p>
+          <p className="footer__link"> Github </p>
+        </div>
+      </div>
+    </footer>
+  );
 }
 
-export default Footer
+export default Footer;

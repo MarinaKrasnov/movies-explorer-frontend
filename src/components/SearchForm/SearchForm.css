@@ -1,0 +1,134 @@
+.search-form {
+    margin: 66px 70px 80px 70px;
+    padding-bottom: 70px;
+    border-bottom: 1px solid #E8E8E8;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width:437px) {
+    .search-form {
+        margin: 80px 14px 0 14px;
+    }
+}
+
+@media (max-width:837px) {
+    .search-form {
+        margin: 80px 30px 0 30px;
+    }
+}
+
+.search-form__input {
+    background: #F9F9F9;
+    border-radius: 40px;
+    outline: none;
+    padding: 0;
+    border: none;
+    margin: 0;
+    padding-left: 22px;
+    font-size: 13px;
+    line-height: 17px;
+    color: #A0A0A0;
+    height: 46px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.search-form__container {
+    position: relative;
+    height: 46px;
+    width: 100%;
+    margin-bottom: 41px;
+}
+
+.search-form__submit {
+    width: 80px;
+    height: 34px;
+    background: #3456F3;
+    transition: .5s ease;
+    outline: none;
+    border: none;
+    padding: 0;
+    border-radius: 48px;
+    margin: 0;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+}
+
+.search-form__submit-loop:hover {
+    transform: rotate(45deg);
+}
+
+.search-form__submit-loop {
+    padding-top: calc(100%*0.07);
+
+}
+
+
+.search-form__text {
+    margin-left: 12px;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.search-form__checkbox {
+    display: flex;
+    justify-content: center;
+}
+
+/* The switch - the box around the slider */
+.search-form__switch {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+}
+
+/* Hide default HTML checkbox */
+.search-form__switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.search-form__slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #EBEBEB;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 20px;
+}
+
+.search-form__slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 0;
+    bottom: 0;
+    background-color: #F5F5F5;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked+.search-form__slider {
+    background-color: #2BE080;
+}
+
+input:focus+.search-form__slider {
+    box-shadow: 0 0 1px #2BE080;
+}
+
+input:checked+.search-form__slider:before {
+    -webkit-transform: translateX(16px);
+    -ms-transform: translateX(16px);
+    transform: translateX(16px);
+}

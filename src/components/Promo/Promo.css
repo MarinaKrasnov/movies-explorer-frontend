@@ -1,0 +1,86 @@
+.promo {
+    grid-area: promo;
+    background-color: #073042;
+    color: #FFFFFF;
+    padding-top: var(--padding-promo-top);
+    padding-bottom: var(--padding-promo-bottom);
+    padding-right: var(--padding-side-default);
+    padding-left: var(--padding-side-default);
+    background-image: url(../../images/hero.svg);
+    background-image: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    background-position: top 75px right 70px;
+    background-repeat: no-repeat;
+    background-size: 310px 304px;
+    position: relative;
+    min-height: 524px;
+    display: grid;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 100%;
+    z-index: -1;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+}
+
+.promo__title {
+    font-size: var(--text-size-xxl);
+    line-height: var(--text-line-height-xxl);
+    margin: 0;
+    max-width: 640px;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+}
+
+.promo__subtitle {
+    font-size: 13px;
+    line-height: 16px;
+    mix-blend-mode: normal;
+    opacity: 0.5;
+    margin-top: var(--margin-top-promo-subtitle);
+    margin-bottom: var(--margin-bottom-promo-subtitle);
+}
+
+.promo__link {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 36px;
+    border: 1px solid #FFFFFF;
+    border-radius: 3px;
+    width: 129px;
+    height: 36px;
+    text-align: center;
+    margin: 0;
+}
+
+.promo__logo {
+    display: none;
+}
+
+@media (max-width:1096px) {
+    .promo__logo {
+        display: block;
+        /*     height: 304px; */
+        width: var(--width-promo-logo);
+        filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+        justify-self: center;
+        margin-bottom: 48px;
+    }
+
+    .promo__link {
+
+        justify-self: center;
+        /*        margin-bottom: 30px; */
+    }
+
+    .promo {
+        text-align: center;
+        justify-content: center;
+        background-image: none;
+    }
+
+    .promo__subtitle {
+        max-width: 260px;
+        align-self: center;
+        justify-self: center;
+    }
+}
