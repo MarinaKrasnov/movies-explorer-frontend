@@ -66,9 +66,6 @@ function SavedMovies({
       <main className="main">
         <SearchForm
           setIsLoading={setIsLoading}
-          /*     setMovies={setMovies}
-        movies={movies} */
-          setShortfilmSwitch={setShortfilmSwitch}
           onSubmit={handleSearchFormSubmit}
           onSwitch={handleSwitch}
         />

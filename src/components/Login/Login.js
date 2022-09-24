@@ -1,27 +1,29 @@
 import React from "react";
 import { Route, Link } from "react-router-dom";
+import { useFormWithValidation } from "../Validation";
 import "./Login.css";
 import logo from "../../images/logo.svg";
 
 const Login = ({ onLogin }) => {
-  const [inputs, setInputs] = React.useState({
+  const { handleChange, values, isValid } = useFormWithValidation();
+  /*   const [inputs, setInputs] = React.useState({
     email: "",
     password: "",
   });
   /*   const [message, setMessage] = React.useState('') */
 
-  const handleChange = (e) => {
+  /*   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputs((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
-
+ */
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (onLogin && inputs.email && inputs.password) {
-      return onLogin(inputs.email, inputs.password);
+    if (onLogin && values.email && values.password) {
+      return onLogin(values.email, values.password);
     }
   };
   return (
@@ -38,7 +40,7 @@ const Login = ({ onLogin }) => {
             id="email"
             name="email"
             type="email"
-            value={inputs.email}
+            value={values.email}
             onChange={handleChange}
             className="form__input"
             placeholder="pochta@yandex.ru"
@@ -51,14 +53,19 @@ const Login = ({ onLogin }) => {
             id="password"
             name="password"
             type="password"
-            value={inputs.password}
+            value={values.password}
             onChange={handleChange}
             className="form__input"
             placeholder="Пароль"
             required
           />
           <div className="form__button-container">
-            <button type="submit" className="form__submit">
+            <button
+              type="submit"
+              className={
+                isValid ? "form__submit" : "form__submit form__submit_disabled"
+              }
+            >
               Войти
             </button>
             <div className="form__sign-in-up">

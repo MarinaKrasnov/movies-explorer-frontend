@@ -5,9 +5,6 @@ import { useForm } from "../Validation";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function SearchForm({
-  setIsLoading,
-  isLoggedIn,
-  setShortfilmSwitch,
   onSubmit,
   onSwitch,
 }) {

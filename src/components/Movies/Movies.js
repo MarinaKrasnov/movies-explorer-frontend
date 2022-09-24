@@ -40,10 +40,9 @@ function Movies({
         setFilteredMovies(filteredMoviesData);
       } else {
         setFilteredMovies([]);
-      }
-      if (filteredMovies === []) {
         setNotFound(true);
       }
+
       setIsLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -51,8 +50,8 @@ function Movies({
 
   //Handlers
   const handleSwitch = (value) => {
-    /*     console.log(value); */
-    if (value === true) {
+    console.log(value);
+    if (value) {
       setShortfilmSwitch(true);
       /*       setIsFiltered(true); */
       const filteredMoviesData = value
@@ -62,7 +61,7 @@ function Movies({
       setFilteredMovies(filteredMoviesData);
     } else {
       setShortfilmSwitch(false);
-      /*    console.log(isShortfilmSwitchOn); */
+      console.log(isShortfilmSwitchOn);
       localStorage.setItem(`switch-${currentUser._id}`, JSON.stringify(false));
       /*    console.log(
         "localStorage.getItem(se)",
@@ -93,12 +92,10 @@ function Movies({
       <main className="main">
         <SearchForm
           /* setIsLoading={setIsLoading} */
-
-          setShortfilmSwitch={setShortfilmSwitch}
           onSubmit={handleSearchFormSubmit}
           onSwitch={handleSwitch}
         />
-        {isLoading && false ? (
+        {isLoading ? (
           <Preloader isLoading={isLoading} />
         ) : rMovies ? (
           <p className="movies__not-found">без результатов поиска</p>
