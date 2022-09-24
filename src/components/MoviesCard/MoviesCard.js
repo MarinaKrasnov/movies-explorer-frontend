@@ -1,13 +1,15 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import MainApi from "../../utils/MainApi";
 import "./MoviesCard.css";
 
 function MoviesCard({ item, setSavedMovies, savedMovies, jwt }) {
   const location = useLocation();
-  const isItemSaved = savedMovies.some(
-    (movie) => movie.movieId === item.movieId
-  );
+  const currentUser = React.useContext(CurrentUserContext);
+  const isItemSaved = !!savedMovies
+    ? savedMovies.some((movie) => movie.movieId === item.movieId)
+    : false;
 
   const MoviesSavedButtonClassName = `button ${
     location.pathname === "/saved-movies"
@@ -25,20 +27,29 @@ function MoviesCard({ item, setSavedMovies, savedMovies, jwt }) {
       .then((deletedMovie) => {
         if (deletedMovie.message) {
           MainApi.getSavedMovies(jwt).then((savedMovies) => {
-            localStorage.setItem("savedMovies", JSON.stringify(savedMovies));
+            localStorage.setItem(
+              `savedMovies-${currentUser._id}`,
+              JSON.stringify(savedMovies)
+            );
             setSavedMovies(savedMovies);
           });
         } else {
           const movies = savedMovies.filter((movie) => {
             return deletedMovie.data._id !== movie._id;
           });
-          localStorage.setItem("savedMovies", JSON.stringify(movies));
+          localStorage.setItem(
+            `savedMovies-${currentUser._id}`,
+            JSON.stringify(movies)
+          );
           setSavedMovies(movies);
         }
       })
       .catch((err) => {
         MainApi.getSavedMovies(jwt).then((savedMovies) => {
-          localStorage.setItem("savedMovies", JSON.stringify(savedMovies));
+          localStorage.setItem(
+            `savedMovies-${currentUser._id}`,
+            JSON.stringify(savedMovies)
+          );
           setSavedMovies(savedMovies);
         });
         console.log(`Ошибка ${err}, попробуйте еще раз`);
@@ -51,9 +62,10 @@ function MoviesCard({ item, setSavedMovies, savedMovies, jwt }) {
       ? handleDelete(item)
       : MainApi.saveMovie(item, jwt)
           .then((item) => {
-            const savedMoviesElements = [...savedMovies, item];
+            const savedMoviesElements =
+              savedMovies === null ? [item] : [...savedMovies, item];
             localStorage.setItem(
-              "savedMovies",
+              `savedMovies-${currentUser._id}`,
               JSON.stringify(savedMoviesElements)
             );
             setSavedMovies(savedMoviesElements);

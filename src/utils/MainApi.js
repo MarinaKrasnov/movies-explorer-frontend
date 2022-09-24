@@ -85,17 +85,6 @@ class Api {
         Authorization: `Bearer ${jwt}`,
       },
       body: JSON.stringify({
-        /*         country: item.country,
-        director: item.director,
-        duration: item.duration,
-        year: item.year,
-        description: item.description,
-        image: `${MoviesApi._url}${item.image.url}`,
-        trailerLink: item.trailerLink,
-        thumbnail: `${MoviesApi._url}${item.image.formats.thumbnail.url}`,
-        nameRU: item.nameRU,
-        nameEN: item.nameEN,
-        movieId: item.id, */
         ...item,
       }),
     });

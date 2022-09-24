@@ -14,8 +14,10 @@ Technologies
 JS * React * Node * Express
 MongoDB * authorization
 ** Demo Link**
+pull request : https://github.com/MarinaKrasnov/movies-explorer-frontend/pull/2
 
 api: https://api.catalog.nomoredomains.sbs
+
 frontend: https://catalog.nomoredomains.sbs
 
 62.84.122.209

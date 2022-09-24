@@ -2,6 +2,7 @@ import React from "react";
 import "./SearchForm.css";
 import loop from "../../images/loop.svg";
 import { useForm } from "../Validation";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function SearchForm({
   setIsLoading,
@@ -10,15 +11,18 @@ function SearchForm({
   onSubmit,
   onSwitch,
 }) {
+  const currentUser = React.useContext(CurrentUserContext);
   const { handleChange, values, setValues } = useForm();
   const submit = (e) => {
     e.preventDefault();
-    console.log(values.search);
     /*     setIsLoading(true); */
     if (onSubmit && values.search) {
       setValues(values.search);
       onSubmit(values.search);
-      localStorage.setItem("searchQuery", JSON.stringify(values.search));
+      localStorage.setItem(
+        `searchQuery-${currentUser._id}`,
+        JSON.stringify(values.search)
+      );
       /*       setTimeout(() => {
         setIsLoading(false);
       }, 3000); */

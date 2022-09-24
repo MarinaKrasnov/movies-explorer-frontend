@@ -8,7 +8,7 @@ function InfoTooltip({ message, isOpen, onClose }) {
   const image = message ? `${success}` : `${error}`;
   return (
     <div className={`overlay ${isOpen && "overlay_active"}`}>
-      <div className="popup popup_type_message">
+      <div className=" popup_type_message">
         <img
           className="popup_type_message__image"
           src={image}

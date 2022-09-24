@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 import "./Login.css";
 import logo from "../../images/logo.svg";
 
@@ -61,6 +61,17 @@ const Login = ({ onLogin }) => {
             <button type="submit" className="form__submit">
               Войти
             </button>
+            <div className="form__sign-in-up">
+              <p className="form__text-below-submit">
+                Ещё не зарегистрированы?
+              </p>
+              <Link
+                to="signup"
+                className="link form__link form__link-below-submit "
+              >
+                Регистрация
+              </Link>
+            </div>
           </div>
         </form>
       </div>

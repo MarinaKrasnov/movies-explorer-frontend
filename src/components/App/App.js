@@ -23,19 +23,21 @@ function App() {
   // State constants
   const [currentUser, setCurrentUser] = React.useState({});
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [jwt, setJWT] = React.useState(
+    localStorage.getItem(`jwt-${currentUser._id}`)
+  );
+  const [movies, setMovies] = React.useState([]);
   const [savedMovies, setSavedMovies] = React.useState([]);
+  const [size, setSize] = useState([window.innerWidth, window.innerHeight]);
+  const [isLoading, setIsLoading] = React.useState(false);
   const history = useHistory();
   const [isInfoTooltipOpen, setInfoTooltip] = React.useState(false);
   const [message, setMessage] = React.useState(false);
   const [isPopupOpen, setPopupOpen] = React.useState(false);
-  const [movies, setMovies] = React.useState([]);
-  const [jwt, setJWT] = React.useState(localStorage.getItem("jwt"));
-  const [size, setSize] = useState([window.innerWidth, window.innerHeight]);
-  const [isLoading, setIsLoading] = React.useState(false);
 
   const location = useLocation();
   const checkToken = React.useCallback(() => {
-    const jwt = localStorage.getItem("jwt");
+    /*     const jwt = localStorage.getItem(`jwt-${currentUser._id}`); */
     if (jwt) {
       auth
         .checkToken(jwt)
@@ -47,7 +49,7 @@ function App() {
             history.push("/movies");
           }
           if (res.message) {
-            localStorage.removeItem("jwt");
+            localStorage.removeItem(`jwt-${currentUser._id}`);
             history.push("/signin");
           }
         })
@@ -55,17 +57,37 @@ function App() {
         .finally(() => {
           setIsLoading(false);
         });
+    } else {
+      setIsLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [jwt]);
   const getSavedMoviesData = async () => {
-    setSavedMovies(JSON.parse(localStorage.getItem("savedMovies")));
-    if (!savedMovies) {
+    setSavedMovies(
+      JSON.parse(localStorage.getItem(`savedMovies-${currentUser._id}`))
+    );
+  /*   console.log("s", !savedMovies);
+    console.log(
+      "!savedMovies.some((movie) => movie.owner === currentUser._id)",
+      !savedMovies.some((movie) => movie.owner === currentUser._id)
+    ); */
+
+    if (
+      !savedMovies ||
+      !savedMovies.some((movie) => movie.owner === currentUser._id)
+    ) {
       MainApi.getSavedMovies(jwt)
         .then((savedMoviesData) => {
-          setSavedMovies(savedMoviesData);
-          localStorage.setItem("savedMovies", JSON.stringify(savedMoviesData));
-          return savedMoviesData;
+          if (savedMoviesData) {
+            setSavedMovies(savedMoviesData);
+            localStorage.setItem(
+              `savedMovies-${currentUser._id}`,
+              JSON.stringify(savedMoviesData)
+            );
+            return savedMoviesData;
+          } else {
+            return setSavedMovies([]);
+          }
         })
         .catch((err) => console.log(err))
         .finally(() => {
@@ -92,15 +114,18 @@ function App() {
     return movie.duration <= 40;
   };
   const filter = (searchQuery, isShortfilmSwitchOn) => {
+/*     console.log("searchQuery filter", searchQuery);
+    console.log("isShortfilmSwitchOn filter", isShortfilmSwitchOn); */
+
     const moviesData =
       location.pathname === "/saved-movies" ? savedMovies : movies;
-
+/*     console.log(moviesData); */
     const filterMoviesByKeyword = (movie) => {
       return JSON.stringify(movie)
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
     };
-    const filteredMoviesData = isShortfilmSwitchOn
+    const filteredMoviesData =  isShortfilmSwitchOn
       ? moviesData.filter(filterMoviesByKeyword).filter(filterMoviesByDuration)
       : moviesData.filter(filterMoviesByKeyword);
     return filteredMoviesData;
@@ -115,7 +140,7 @@ function App() {
     if (isLoggedIn && jwt) {
       setIsLoading(true);
       const moviesData = localStorage.getItem("movies");
-      if (moviesData === "[]") {
+      if (!moviesData || movies === "[]") {
         MoviesApi.getMovies()
           .then((items) => {
             const moviesElements = items.map((item) => {
@@ -134,7 +159,10 @@ function App() {
               };
             });
             setMovies(moviesElements);
-            localStorage.setItem("movies", JSON.stringify(moviesElements));
+            localStorage.setItem(
+              `movies-${currentUser._id}`,
+              JSON.stringify(moviesElements)
+            );
           })
           .catch((err) => console.log(err))
           .finally(() => {
@@ -148,8 +176,8 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn]);
   useEffect(() => {
-    setIsLoading(true);
     if (isLoggedIn && jwt) {
+      setIsLoading(true);
       getSavedMoviesData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -187,12 +215,6 @@ function App() {
           setInfoTooltip(true);
         }
       })
-      .then((res) => {
-        if (!res.email) {
-          setMessage(false);
-          setInfoTooltip(true);
-        }
-      })
       .catch((err) => {
         console.log(err);
       })
@@ -207,7 +229,7 @@ function App() {
       .then((response) => {
         if (response.token) {
           setJWT(response.token);
-          localStorage.setItem("jwt", response.token);
+          localStorage.setItem(`jwt-${currentUser._id}`, response.token);
           setIsLoggedIn(true);
           history.push("/movies");
         } else {
@@ -250,8 +272,8 @@ function App() {
       });
   };
   const handleSignOut = () => {
-    localStorage.removeItem("jwt");
-    localStorage.removeItem("savedMovies");
+    localStorage.removeItem(`jwt-${currentUser._id}`);
+    localStorage.removeItem(`savedMovies-${currentUser._id}`);
     setIsLoggedIn(false);
     history.push("/signin");
   };
