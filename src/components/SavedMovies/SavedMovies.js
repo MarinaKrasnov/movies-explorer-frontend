@@ -72,7 +72,7 @@ function SavedMovies({
         {isLoading ? (
           <Preloader isLoading={isLoading} />
         ) : rMovies ? (
-          <p className="movies__not-found">без результатов поиска</p>
+          <p className="movies__not-found">«Ничего не найдено»</p>
         ) : (
           <MoviesCardList
             savedMovies={isFiltered ? filteredMovies : savedMovies}

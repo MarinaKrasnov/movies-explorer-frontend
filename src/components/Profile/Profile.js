@@ -3,24 +3,26 @@ import { Route, Link } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import "./Profile.css";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { useFormWithValidation } from "../Validation";
 
 function Profile({ onEdit, signOut }) {
+  const { handleChange, values, isValid } = useFormWithValidation();
   const currentUser = useContext(CurrentUserContext);
-  const [state, setState] = React.useState({
+  /*   const [values, setvalues] = React.usevalues({
     name: "",
     email: "",
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setState((prev) => ({
+    setvalues((prev) => ({
       ...prev,
       [name]: value,
     }));
-  };
+  }; */
   const onEditing = (e) => {
     e.preventDefault();
-    if (onEdit && state.email) {
-      onEdit(state.name, state.email);
+    if (onEdit && values.email) {
+      onEdit(values.name, values.email);
     }
   };
   return (
@@ -36,7 +38,7 @@ function Profile({ onEdit, signOut }) {
                 id="name"
                 name="name"
                 type="name"
-                defaultValue={state.name}
+                defaultValue={values.name}
                 onChange={handleChange}
                 className=" profile__input"
                 placeholder={currentUser.name}
@@ -49,7 +51,7 @@ function Profile({ onEdit, signOut }) {
                 id="email"
                 name="email"
                 type="email"
-                defaultValue={state.email}
+                defaultValue={values.email}
                 onChange={handleChange}
                 className="profile__input"
                 placeholder={currentUser.email}
@@ -58,13 +60,17 @@ function Profile({ onEdit, signOut }) {
           </fieldset>
           <div className="form__button-container">
             <div className="form__sign-in-up profile__links">
-              <button
-                type="submit"
-                className="button form__text-below-submit profile__edit"
-                onSubmit={onEditing}
-              >
-                Редактировать
-              </button>
+              {isValid ? (
+                <button
+                  type="submit"
+                  className="button form__text-below-submit profile__edit"
+                  onSubmit={onEditing}
+                >
+                  Редактировать
+                </button>
+              ) : (
+                ""
+              )}
               <Link
                 to="signin"
                 className="link form__link form__link-below-submit profile__signout "
