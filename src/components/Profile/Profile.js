@@ -6,7 +6,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { useFormWithValidation } from "../Validation";
 
 function Profile({ onEdit, signOut }) {
-  const { handleChange, values, isValid } = useFormWithValidation();
+  const { handleChange, values, isValid, setValues } = useFormWithValidation();
   const currentUser = useContext(CurrentUserContext);
   /*   const [values, setvalues] = React.usevalues({
     name: "",
@@ -22,7 +22,12 @@ function Profile({ onEdit, signOut }) {
   const onEditing = (e) => {
     e.preventDefault();
     if (onEdit && values.email) {
+      setValues({
+        name: values.name,
+        email: values.email,
+      });
       onEdit(values.name, values.email);
+      
     }
   };
   return (

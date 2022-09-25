@@ -53,7 +53,7 @@ function App() {
             history.push("/signin");
           }
         })
-        .catch((err) => console.log(err))
+        .catch((err) => alert(err, err.message))
         .finally(() => {
           setIsLoading(false);
         });
@@ -66,7 +66,7 @@ function App() {
     setSavedMovies(
       JSON.parse(localStorage.getItem(`savedMovies-${currentUser._id}`))
     );
-  /*   console.log("s", !savedMovies);
+    /*   console.log("s", !savedMovies);
     console.log(
       "!savedMovies.some((movie) => movie.owner === currentUser._id)",
       !savedMovies.some((movie) => movie.owner === currentUser._id)
@@ -89,7 +89,7 @@ function App() {
             return setSavedMovies([]);
           }
         })
-        .catch((err) => console.log(err))
+        .catch((err) => alert(err, err.message))
         .finally(() => {
           setIsLoading(false);
         });
@@ -114,18 +114,18 @@ function App() {
     return movie.duration <= 40;
   };
   const filter = (searchQuery, isShortfilmSwitchOn) => {
-/*     console.log("searchQuery filter", searchQuery);
+    /*     console.log("searchQuery filter", searchQuery);
     console.log("isShortfilmSwitchOn filter", isShortfilmSwitchOn); */
 
     const moviesData =
       location.pathname === "/saved-movies" ? savedMovies : movies;
-/*     console.log(moviesData); */
+    /*     console.log(moviesData); */
     const filterMoviesByKeyword = (movie) => {
       return JSON.stringify(movie)
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
     };
-    const filteredMoviesData =  isShortfilmSwitchOn
+    const filteredMoviesData = isShortfilmSwitchOn
       ? moviesData.filter(filterMoviesByKeyword).filter(filterMoviesByDuration)
       : moviesData.filter(filterMoviesByKeyword);
     return filteredMoviesData;
@@ -164,7 +164,7 @@ function App() {
               JSON.stringify(moviesElements)
             );
           })
-          .catch((err) => console.log(err))
+          .catch((err) => alert(err, err.message))
           .finally(() => {
             setIsLoading(false);
           });
@@ -216,7 +216,7 @@ function App() {
         }
       })
       .catch((err) => {
-        console.log(err);
+        alert(err, err.message);
       })
       .finally(() => {
         setIsLoading(false);
@@ -237,6 +237,9 @@ function App() {
           setInfoTooltip(true);
         }
       })
+      .catch((err) => {
+        alert(err, err.message);
+      })
       .finally(() => {
         setIsLoading(false);
       });
@@ -251,6 +254,7 @@ function App() {
     MainApi.editProfileInfo(name, email)
       .then((response) => {
         if (response) {
+          setCurrentUser(response);
           setMessage(true);
           setInfoTooltip(true);
         } else {
@@ -258,14 +262,9 @@ function App() {
           setInfoTooltip(true);
         }
       })
-      .then((res) => {
-        if (!res.email) {
-          setMessage(false);
-          setInfoTooltip(true);
-        }
-      })
+
       .catch((err) => {
-        console.log(err);
+        alert(err, err.message);
       })
       .finally(() => {
         setIsLoading(false);
@@ -274,6 +273,7 @@ function App() {
   const handleSignOut = () => {
     localStorage.removeItem(`jwt-${currentUser._id}`);
     localStorage.removeItem(`savedMovies-${currentUser._id}`);
+    localStorage.removeItem(`switch-${currentUser._id}`);
     setIsLoggedIn(false);
     history.push("/signin");
   };

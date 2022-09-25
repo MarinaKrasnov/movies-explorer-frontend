@@ -19,38 +19,42 @@ function Movies({
 }) {
   const [isLoading, setIsLoading] = React.useState(false);
   const [isShortfilmSwitchOn, setShortfilmSwitch] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState("");
   /* const [isFiltered, setIsFiltered] = React.useState(false); */
   const [filteredMovies, setFilteredMovies] = React.useState([]);
   const [rMovies, setNotFound] = React.useState(false);
   const currentUser = React.useContext(CurrentUserContext);
-  React.useEffect(() => {
-    if (
-      localStorage.getItem(`switch-${currentUser._id}`) ||
+  const movieRender = React.useCallback(() => {
+    const switchValue = JSON.parse(
+      localStorage.getItem(`switch-${currentUser._id}`)
+    );
+    const searchQuery = JSON.parse(
       localStorage.getItem(`searchQuery-${currentUser._id}`)
-    ) {
-      setShortfilmSwitch(
-        JSON.parse(localStorage.getItem(`switch-${currentUser._id}`))
-      );
-
-      if (localStorage.getItem(`searchQuery-${currentUser._id}`)) {
-        const filteredMoviesData = filter(
-          JSON.parse(localStorage.getItem(`searchQuery-${currentUser._id}`)),
-          isShortfilmSwitchOn
-        );
+    );
+    if (switchValue || searchQuery) {
+      setShortfilmSwitch(switchValue);
+      if (searchQuery) {
+        setSearchQuery(searchQuery);
+        const filteredMoviesData = filter(searchQuery, isShortfilmSwitchOn);
         setFilteredMovies(filteredMoviesData);
       } else {
         setFilteredMovies([]);
         setNotFound(true);
       }
-
       setIsLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [searchQuery, isShortfilmSwitchOn]);
+  React.useEffect(() => {
+    movieRender();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [movieRender]);
 
   //Handlers
   const handleSwitch = (value) => {
     console.log(value);
+    localStorage.setItem(`switch-${currentUser._id}`, JSON.stringify(value));
     if (value) {
       setShortfilmSwitch(true);
       /*       setIsFiltered(true); */
@@ -62,7 +66,6 @@ function Movies({
     } else {
       setShortfilmSwitch(false);
       console.log(isShortfilmSwitchOn);
-      localStorage.setItem(`switch-${currentUser._id}`, JSON.stringify(false));
       /*    console.log(
         "localStorage.getItem(se)",
         localStorage.getItem(`searchQuery-${currentUser._id}`)
