@@ -11,7 +11,7 @@ class Api {
           return res.json();
         } else return res;
       })
-      .catch((err) => console.log(`Request failed ${err.status}`));
+      .catch((err) => alert(`Request failed ${err.status}`));
   }
 
   getSavedMovies(jwt) {
@@ -50,7 +50,7 @@ class Api {
     return this._makeRequest(promise);
   }
 
-  editProfileInfo({ name, email }, jwt) {
+  editProfileInfo(name, email, jwt) {
     return this._makeRequest(
       fetch(`${this._url}/users/me`, {
         method: "PATCH",

@@ -4,10 +4,7 @@ import loop from "../../images/loop.svg";
 import { useForm } from "../Validation";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-function SearchForm({
-  onSubmit,
-  onSwitch,
-}) {
+function SearchForm({ onSubmit, onSwitch }) {
   const currentUser = React.useContext(CurrentUserContext);
   const { handleChange, values, setValues } = useForm();
   const submit = (e) => {
@@ -23,7 +20,7 @@ function SearchForm({
       /*       setTimeout(() => {
         setIsLoading(false);
       }, 3000); */
-    } else console.error("error");
+    } else alert("error");
   };
   const handleCheckboxChange = (e) => {
     const target = e.target;

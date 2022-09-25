@@ -6,34 +6,26 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { useFormWithValidation } from "../Validation";
 
 function Profile({ onEdit, signOut }) {
-  const { handleChange, values, isValid, setValues } = useFormWithValidation();
+  const { handleChange, values, isValid, resetForm } = useFormWithValidation();
   const currentUser = useContext(CurrentUserContext);
-  /*   const [values, setvalues] = React.usevalues({
-    name: "",
-    email: "",
-  });
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setvalues((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  }; */
+
+  React.useEffect(() => {
+    resetForm({ name: currentUser.name, email: currentUser.email });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser]);
   const onEditing = (e) => {
     e.preventDefault();
     if (onEdit && values.email) {
-      setValues({
-        name: values.name,
-        email: values.email,
-      });
       onEdit(values.name, values.email);
-      
     }
   };
   return (
     <Route path="/profile">
       <section className="profile">
-        <form className="form__container profile__container">
+        <form
+          className="form__container profile__container"
+          onSubmit={onEditing}
+        >
           <fieldset className=" profile__top">
             <p className="profile__title">Привет, {currentUser.name}!</p>
             <p className="register__error"></p>
@@ -69,7 +61,6 @@ function Profile({ onEdit, signOut }) {
                 <button
                   type="submit"
                   className="button form__text-below-submit profile__edit"
-                  onSubmit={onEditing}
                 >
                   Редактировать
                 </button>

@@ -52,7 +52,7 @@ function MoviesCard({ item, setSavedMovies, savedMovies, jwt }) {
           );
           setSavedMovies(savedMovies);
         });
-        console.log(`Ошибка ${err}, попробуйте еще раз`);
+        alert(`Ошибка ${err}, попробуйте еще раз`);
       });
   };
   const handleSaveClick = () => {
@@ -71,7 +71,7 @@ function MoviesCard({ item, setSavedMovies, savedMovies, jwt }) {
             setSavedMovies(savedMoviesElements);
           })
           .catch((err) => {
-            console.log(`Ошибка ${err}, попробуйте еще раз`);
+            alert(`Ошибка ${err}, попробуйте еще раз`);
           });
   };
   const handleCardClick = (item) => {

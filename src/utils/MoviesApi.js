@@ -14,7 +14,7 @@ class Api {
             `Произошла ошибка: ${res.status}:${res.statusText}`
           );
       })
-      .catch((err) => console.log(`Request failed ${err.status}`));
+      .catch((err) => alert(`Request failed ${err.status}`));
   }
   getMovies() {
     return this._makeRequest(

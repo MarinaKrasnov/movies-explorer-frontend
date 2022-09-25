@@ -66,12 +66,6 @@ function App() {
     setSavedMovies(
       JSON.parse(localStorage.getItem(`savedMovies-${currentUser._id}`))
     );
-    /*   console.log("s", !savedMovies);
-    console.log(
-      "!savedMovies.some((movie) => movie.owner === currentUser._id)",
-      !savedMovies.some((movie) => movie.owner === currentUser._id)
-    ); */
-
     if (
       !savedMovies ||
       !savedMovies.some((movie) => movie.owner === currentUser._id)
@@ -114,12 +108,8 @@ function App() {
     return movie.duration <= 40;
   };
   const filter = (searchQuery, isShortfilmSwitchOn) => {
-    /*     console.log("searchQuery filter", searchQuery);
-    console.log("isShortfilmSwitchOn filter", isShortfilmSwitchOn); */
-
     const moviesData =
       location.pathname === "/saved-movies" ? savedMovies : movies;
-    /*     console.log(moviesData); */
     const filterMoviesByKeyword = (movie) => {
       return JSON.stringify(movie)
         .toLowerCase()
@@ -251,7 +241,7 @@ function App() {
 
   const handleEditing = (name, email) => {
     setIsLoading(true);
-    MainApi.editProfileInfo(name, email)
+    MainApi.editProfileInfo(name, email, jwt)
       .then((response) => {
         if (response) {
           setCurrentUser(response);

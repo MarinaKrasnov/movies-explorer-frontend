@@ -53,11 +53,9 @@ function Movies({
 
   //Handlers
   const handleSwitch = (value) => {
-    console.log(value);
     localStorage.setItem(`switch-${currentUser._id}`, JSON.stringify(value));
     if (value) {
-      setShortfilmSwitch(true);
-      /*       setIsFiltered(true); */
+      setShortfilmSwitch(value);
       const filteredMoviesData = value
         ? filteredMovies.filter(filterMoviesByDuration)
         : filteredMovies;
@@ -65,21 +63,13 @@ function Movies({
       setFilteredMovies(filteredMoviesData);
     } else {
       setShortfilmSwitch(false);
-      console.log(isShortfilmSwitchOn);
-      /*    console.log(
-        "localStorage.getItem(se)",
-        localStorage.getItem(`searchQuery-${currentUser._id}`)
-      ); */
       handleSearchFormSubmit(
         JSON.parse(localStorage.getItem(`searchQuery-${currentUser._id}`))
       );
     }
-    /*     console.log("handleSwitch movies", filteredMovies); */
   };
   const handleSearchFormSubmit = (searchQuery) => {
     setIsLoading(true);
-    /* setIsFiltered(true); */
-    /*     console.log("searchQuery", searchQuery); */
     let filteredMoviesData = filter(searchQuery, isShortfilmSwitchOn);
     setFilteredMovies(filteredMoviesData);
     if (filteredMoviesData === []) {
