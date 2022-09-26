@@ -30,7 +30,9 @@ const Login = ({ onLogin }) => {
     <Route path="/signin">
       <div className="form__container">
         <form onSubmit={handleSubmit} className="form">
-          <img src={logo} alt="Logo" />
+          <Link to="">
+            <img src={logo} alt="Logo" />
+          </Link>
           <p className="form__title">Рады видеть!</p>
           {/*         <p className='register__error'>{inputs.message}</p> */}
           <label htmlFor="email" className="form__label">
@@ -40,7 +42,7 @@ const Login = ({ onLogin }) => {
             id="email"
             name="email"
             type="email"
-            value={values.email}
+            value={values.email || ""}
             onChange={handleChange}
             className="form__input"
             placeholder="pochta@yandex.ru"
@@ -53,7 +55,7 @@ const Login = ({ onLogin }) => {
             id="password"
             name="password"
             type="password"
-            value={values.password}
+            value={values.password || ""}
             onChange={handleChange}
             className="form__input"
             placeholder="Пароль"

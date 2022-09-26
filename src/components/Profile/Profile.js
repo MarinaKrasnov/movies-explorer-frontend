@@ -1,18 +1,14 @@
 import React, { useContext } from "react";
-import { Route, Link } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import "./Profile.css";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { useFormWithValidation } from "../Validation";
 
 function Profile({ onEdit, signOut }) {
-  const { handleChange, values, isValid, resetForm } = useFormWithValidation();
+  const { handleChange, values, isValid } = useFormWithValidation();
   const currentUser = useContext(CurrentUserContext);
 
-  React.useEffect(() => {
-    resetForm({ name: currentUser.name, email: currentUser.email });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser]);
   const onEditing = (e) => {
     e.preventDefault();
     if (onEdit && values.email) {
@@ -35,10 +31,12 @@ function Profile({ onEdit, signOut }) {
                 id="name"
                 name="name"
                 type="name"
-                defaultValue={values.name}
+                defaultValue={currentUser.name}
                 onChange={handleChange}
                 className=" profile__input"
-                placeholder={currentUser.name}
+                required
+                minLength="2"
+                maxLength="30"
               />
             </label>
             <div className="profile__line"></div>
@@ -48,10 +46,10 @@ function Profile({ onEdit, signOut }) {
                 id="email"
                 name="email"
                 type="email"
-                defaultValue={values.email}
+                defaultValue={currentUser.email}
                 onChange={handleChange}
                 className="profile__input"
-                placeholder={currentUser.email}
+                required
               />
             </label>
           </fieldset>
@@ -67,13 +65,12 @@ function Profile({ onEdit, signOut }) {
               ) : (
                 ""
               )}
-              <Link
-                to="signin"
-                className="link form__link form__link-below-submit profile__signout "
+              <button
+                className=" button link form__link form__link-below-submit profile__signout "
                 onClick={signOut}
               >
                 Выйти из аккаунта
-              </Link>
+              </button>
             </div>
           </div>
         </form>

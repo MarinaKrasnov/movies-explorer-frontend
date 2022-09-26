@@ -1,5 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
+
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 import Preloader from "../Preloader/Preloader";
@@ -16,50 +17,66 @@ function SavedMovies({
   filterMoviesByDuration,
 }) {
   const [isLoading, setIsLoading] = React.useState(false);
-  const [isShortfilmSwitchOn, setShortfilmSwitch] = React.useState(false);
+  const [isSavedShortfilmSwitchOn, setSavedShortfilmSwitch] =
+    React.useState(false);
   const [isFiltered, setIsFiltered] = React.useState(false);
-  const [filteredMovies, setFilteredMovies] = React.useState([]);
-  const [rMovies, setNotFound] = React.useState(false);
+  const [filteredSavedMovies, setfilteredSavedMovies] = React.useState([]);
+  const [rMovies, setNotFound] = React.useState(true);
+  /*   const [searchQuery, setSearchQuery] = React.useState(""); */
   React.useEffect(() => {
-    if (!savedMovies) {
-      getSavedMoviesData();
-    }
-  }, [getSavedMoviesData, savedMovies]);
-
-  /*   React.useEffect(() => {
-    if (filteredMovies === []) {
-      console.log(JSON.parse(localStorage.getItem("searchQuery")));
-      filter(JSON.parse(localStorage.getItem("searchQuery")));
+    if (filteredSavedMovies.length === 0) {
+      setNotFound(false);
+    } else {
+      setNotFound(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filteredMovies]); */
-
+  }, [filteredSavedMovies]);
   //Handlers
   const handleSwitch = (value) => {
     setIsFiltered(true);
-    setShortfilmSwitch(value);
-    const filteredMoviesData = value
-      ? savedMovies.filter(filterMoviesByDuration)
-      : savedMovies;
-    setFilteredMovies(filteredMoviesData);
-    if (filteredMoviesData === []) {
-      setNotFound(true);
-    }
-    /*     setSavedMovies(filteredMoviesData); */
-    /*     console.log("handleSwitch movies", filteredMovies); */
-  };
-  const handleSearchFormSubmit = (searchQuery) => {
-    setIsLoading(true);
-    /*     console.log("searchQuery", searchQuery); */
-    let filteredMoviesData = filter(searchQuery, isShortfilmSwitchOn);
-    /*     console.log(filteredMovies); */
-    setFilteredMovies(filteredMoviesData);
-    if (filteredMoviesData === []) {
+    setSavedShortfilmSwitch(value);
+    if (savedMovies.length === 0) {
       setNotFound(true);
     } else {
-      setFilteredMovies(filteredMoviesData);
+      const filteredSavedMoviesData = value
+        ? savedMovies.filter(filterMoviesByDuration)
+        : savedMovies;
+      setfilteredSavedMovies(filteredSavedMoviesData);
+      if (filteredSavedMoviesData.length === 0) {
+        setNotFound(true);
+      } else {
+        setNotFound(false);
+      }
     }
-    setIsLoading(false);
+  };
+  const handleSearchFormSubmit = async (searchQuery) => {
+    try {
+      setIsLoading(true);
+      setIsFiltered(true);
+      /* setSearchQuery(searchQuery); */
+      console.log("searchQuery", searchQuery);
+      if (savedMovies.length === 0 || filteredSavedMovies.length === 0) {
+        setNotFound(true);
+      } else {
+        setNotFound(false);
+        let filteredSavedMoviesData = filter(
+          searchQuery,
+          isSavedShortfilmSwitchOn
+        );
+        setfilteredSavedMovies(filteredSavedMoviesData);
+        console.log(filteredSavedMovies);
+        console.log(filteredSavedMoviesData);
+        if (filteredSavedMoviesData !== []) {
+          setNotFound(false);
+        }
+        setIsLoading(false);
+      }
+    } catch (e) {
+      setNotFound(true);
+      setfilteredSavedMovies([]);
+      console.log(e);
+    } finally {
+    }
   };
   return (
     <Route path="/saved-movies">
@@ -68,6 +85,7 @@ function SavedMovies({
           setIsLoading={setIsLoading}
           onSubmit={handleSearchFormSubmit}
           onSwitch={handleSwitch}
+          setShortfilmSwitch={setSavedShortfilmSwitch}
         />
         {isLoading ? (
           <Preloader isLoading={isLoading} />
@@ -75,7 +93,7 @@ function SavedMovies({
           <p className="movies__not-found">«Ничего не найдено»</p>
         ) : (
           <MoviesCardList
-            savedMovies={isFiltered ? filteredMovies : savedMovies}
+            savedMovies={isFiltered ? filteredSavedMovies : savedMovies}
             screenSize={screenSize}
             jwt={jwt}
             setSavedMovies={setSavedMovies}

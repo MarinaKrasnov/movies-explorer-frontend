@@ -75,7 +75,7 @@ function MoviesCard({ item, setSavedMovies, savedMovies, jwt }) {
           });
   };
   const handleCardClick = (item) => {
-    window.open(item.trailer, "_blank");
+    window.open(item.trailerLink, "_blank");
   };
 
   return (

@@ -24,9 +24,9 @@ function MoviesCardList({
   }, [screenSize]);
   React.useEffect(() => {
     let isThereMore =
-      screenSize < 437 && moviesList.length > 5
+      screenSize < 437 && moviesList.length > 6
         ? true
-        : screenSize < 837 && moviesList.length > 8
+        : screenSize < 837 && moviesList.length > 9
         ? true
         : screenSize > 837 && moviesList.length > 12
         ? true

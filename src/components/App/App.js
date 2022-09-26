@@ -37,21 +37,20 @@ function App() {
 
   const location = useLocation();
   const checkToken = React.useCallback(() => {
-    /*     const jwt = localStorage.getItem(`jwt-${currentUser._id}`); */
+    const jwt = localStorage.getItem(`jwt-${currentUser._id}`);
     if (jwt) {
       auth
         .checkToken(jwt)
         .then((res) => {
-          if (res) {
-            setJWT(jwt);
+          if (res.token) {
+            setJWT(res.token);
             setIsLoggedIn(true);
             setCurrentUser(res);
             history.push("/movies");
           }
-          if (res.message) {
-            localStorage.removeItem(`jwt-${currentUser._id}`);
-            history.push("/signin");
-          }
+          /*    if (res.message) {
+            handleSignOut();
+          } */
         })
         .catch((err) => alert(err, err.message))
         .finally(() => {
@@ -63,12 +62,14 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jwt]);
   const getSavedMoviesData = async () => {
-    setSavedMovies(
-      JSON.parse(localStorage.getItem(`savedMovies-${currentUser._id}`))
-    );
+    if (localStorage.getItem(`savedMovies-${currentUser._id}`)) {
+      setSavedMovies(
+        JSON.parse(localStorage.getItem(`savedMovies-${currentUser._id}`))
+      );
+    }
     if (
-      !savedMovies ||
-      !savedMovies.some((movie) => movie.owner === currentUser._id)
+      !savedMovies /* ||
+      !savedMovies.some((movie) => movie.owner === currentUser._id) */
     ) {
       MainApi.getSavedMovies(jwt)
         .then((savedMoviesData) => {
@@ -129,8 +130,12 @@ function App() {
   useEffect(() => {
     if (isLoggedIn && jwt) {
       setIsLoading(true);
-      const moviesData = localStorage.getItem("movies");
-      if (!moviesData || movies === "[]") {
+      if (!!localStorage.getItem(`movies-${currentUser._id}`)) {
+        const moviesData = JSON.parse(
+          localStorage.getItem(`movies-${currentUser._id}`)
+        );
+        setMovies(moviesData);
+      } else {
         MoviesApi.getMovies()
           .then((items) => {
             const moviesElements = items.map((item) => {
@@ -158,10 +163,9 @@ function App() {
           .finally(() => {
             setIsLoading(false);
           });
-      } else {
-        setMovies(JSON.parse(moviesData));
-        setIsLoading(false);
       }
+    } else {
+      setIsLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn]);
@@ -198,6 +202,7 @@ function App() {
           setMessage(true);
           setInfoTooltip(true);
           setJWT(response.token);
+          localStorage.setItem(`jwt-${currentUser._id}`, response.token);
           setIsLoggedIn(true);
           history.push("/movies");
         } else {
@@ -219,6 +224,7 @@ function App() {
       .then((response) => {
         if (response.token) {
           setJWT(response.token);
+          setCurrentUser(response);
           localStorage.setItem(`jwt-${currentUser._id}`, response.token);
           setIsLoggedIn(true);
           history.push("/movies");
@@ -252,7 +258,6 @@ function App() {
           setInfoTooltip(true);
         }
       })
-
       .catch((err) => {
         alert(err, err.message);
       })
@@ -263,9 +268,15 @@ function App() {
   const handleSignOut = () => {
     localStorage.removeItem(`jwt-${currentUser._id}`);
     localStorage.removeItem(`savedMovies-${currentUser._id}`);
+    localStorage.removeItem(`movies-${currentUser._id}`);
     localStorage.removeItem(`switch-${currentUser._id}`);
+    localStorage.removeItem(`searchQuery-${currentUser._id}`);
+    setJWT("");
     setIsLoggedIn(false);
-    history.push("/signin");
+    setSavedMovies([]);
+    setMovies([]);
+    setCurrentUser({});
+    history.push("/");
   };
   const [width] = useWindowSize();
   return (
@@ -290,7 +301,7 @@ function App() {
               message={message}
             />
           </Route>
-          <ProtectedRoute exact path="/" isLoggedIn={isLoggedIn}>
+          <Route exact path="/" isLoggedIn={isLoggedIn}>
             <Header
               isLoggedIn={isLoggedIn}
               className="header_type_main"
@@ -301,7 +312,7 @@ function App() {
             />
             <Navigation isPopupOpen={isPopupOpen} onClose={closeAllPopups} />
             <Main />
-          </ProtectedRoute>
+          </Route>
           <ProtectedRoute path="/movies" isLoggedIn={isLoggedIn}>
             <Header
               isLoggedIn={isLoggedIn}

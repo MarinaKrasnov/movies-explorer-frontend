@@ -32,9 +32,11 @@ const Register = ({ onRegister }) => {
     <Route path="/signup">
       <div className="form__container">
         <form onSubmit={handleSubmit} className="form">
-          <img src={logo} alt="Logo" />
+          <Link to="">
+            <img src={logo} alt="Logo" />
+          </Link>
           <p className="form__title">Добро пожаловать!</p>
-          <p className="register__error">{values.message}</p>
+          {/*   <p className="register__error">{values.message}</p> */}
           <label htmlFor="name" className="form__label">
             Имя
           </label>
@@ -42,11 +44,13 @@ const Register = ({ onRegister }) => {
             id="name"
             name="name"
             type="name"
-            value={values.name}
+            value={values.name || ""}
             onChange={handleChange}
             className="form__input"
             placeholder="Виталий"
             required
+            minLength="2"
+            maxLength="30"
           />
           <label htmlFor="email" className="form__label">
             E-mail
@@ -55,7 +59,7 @@ const Register = ({ onRegister }) => {
             id="email"
             name="email"
             type="email"
-            value={values.email}
+            value={values.email || ""}
             onChange={handleChange}
             className="form__input"
             placeholder="pochta@yandex.ru"
@@ -68,7 +72,7 @@ const Register = ({ onRegister }) => {
             id="password"
             name="password"
             type="password"
-            value={values.password}
+            value={values.password || ""}
             onChange={handleChange}
             className="form__input"
             placeholder="Пароль"

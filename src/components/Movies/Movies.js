@@ -17,69 +17,157 @@ function Movies({
   filter,
   filterMoviesByDuration,
 }) {
+  const currentUser = React.useContext(CurrentUserContext);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isShortfilmSwitchOn, setShortfilmSwitch] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
-  /* const [isFiltered, setIsFiltered] = React.useState(false); */
+  const [searchResult, setSearchResult] = React.useState({});
   const [filteredMovies, setFilteredMovies] = React.useState([]);
-  const [rMovies, setNotFound] = React.useState(false);
-  const currentUser = React.useContext(CurrentUserContext);
-  const movieRender = React.useCallback(() => {
-    const switchValue = JSON.parse(
-      localStorage.getItem(`switch-${currentUser._id}`)
-    );
-    const searchQuery = JSON.parse(
-      localStorage.getItem(`searchQuery-${currentUser._id}`)
-    );
-    if (switchValue || searchQuery) {
+  const [rMovies, setNotFound] = React.useState(true);
+  /*   React.useEffect(() => {
+    if (!!localStorage.getItem(`switch-${currentUser._id}`)) {
+      const switchValue = localStorage.getItem(`switch-${currentUser._id}`);
       setShortfilmSwitch(switchValue);
-      if (searchQuery) {
-        setSearchQuery(searchQuery);
-        const filteredMoviesData = filter(searchQuery, isShortfilmSwitchOn);
-        setFilteredMovies(filteredMoviesData);
-      } else {
-        setFilteredMovies([]);
-        setNotFound(true);
-      }
-      setIsLoading(false);
+    } else {
+      setShortfilmSwitch(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchQuery, isShortfilmSwitchOn]);
-  React.useEffect(() => {
-    movieRender();
-
+  }, [isShortfilmSwitchOn]); */
+  /*   const getResult = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [movieRender]);
+/*     const updatedQueryData = localStorage.getItem(
+      `searchResult-${currentUser._id}`
+    )
+      ? JSON.parse(localStorage.getItem(`searchResult-${currentUser._id}`))
+      : searchResult;
+    console.log(updatedQueryData.filteredMoviesData);
+    setShortfilmSwitch(updatedQueryData.isShortfilmSwitchOn);
+    setFilteredMovies(updatedQueryData.filteredMoviesData);
+    let filteredMovies = updatedQueryData.filteredMoviesData;
+    console.log(filteredMovies);
+    setNotFound(false); */
 
+  React.useEffect(() => {
+    if (filteredMovies.length === 0) {
+      const updatedQueryData = localStorage.getItem(
+        `searchResult-${currentUser._id}`
+      )
+        ? JSON.parse(localStorage.getItem(`searchResult-${currentUser._id}`))
+        : searchResult;
+      console.log(updatedQueryData.filteredMoviesData);
+      setShortfilmSwitch(updatedQueryData.isShortfilmSwitchOn);
+      setFilteredMovies(updatedQueryData.filteredMoviesData);
+      let filteredMovies = updatedQueryData.filteredMoviesData;
+      console.log(filteredMovies);
+      setNotFound(false);
+      if (filteredMovies.length !== 0) {
+        setNotFound(false);
+      } else {
+        setNotFound(true);
+      }
+      console.log(rMovies);
+      console.log(filteredMovies);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filteredMovies]);
+  /*   React.useEffect(() => {
+    if (filteredMovies) {
+      setFilteredMovies(filteredMovies);
+    }
+  }, [filteredMovies, rMovies]); */
+  /*   React.useEffect(() => {}, []); */
+  /*   React.useEffect(() => { */
+  /*     console.log(!!localStorage.getItem(`searchQuery-${currentUser._id}`));
+    console.log(localStorage.getItem(`searchQuery-${currentUser._id}`));
+    console.log(currentUser._id); */
+  /*     const searchQueryData = localStorage.getItem(
+      `searchQuery-${currentUser._id}`
+    );
+    if (!!searchQueryData && searchQueryData !== "undefined") {
+      setSearchQuery(
+        JSON.parse(localStorage.getItem(`searchQuery-${currentUser._id}`))
+      );
+      console.log(searchQuery);
+    } */
+  /*     const searchResult = localStorage.getItem(
+      `searchResult-${currentUser._id}`
+    );
+    if (!!searchResult && searchResult !== "undefined") {
+      setFilteredMovies(searchResult);
+    }
+  }, [currentUser._id, searchResult]); */
+  /*   React.useEffect(() => {
+    if (isShortfilmSwitchOn || !!searchQuery) {
+      console.log(searchQuery);
+      console.log(isShortfilmSwitchOn);
+      console.log(isShortfilmSwitchOn || !!searchQuery);
+      let filteredMoviesData = filter(searchQuery, isShortfilmSwitchOn);
+      setFilteredMovies(filteredMoviesData);
+      console.log(filteredMoviesData);
+      console.log(filteredMovies);
+    } else {
+      setFilteredMovies([]);
+      setNotFound(false);
+      console.log(filteredMovies);
+    }
+    setIsLoading(false);
+    console.log(filteredMovies);
+    console.log(rMovies);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery, isShortfilmSwitchOn]); */
+  /*   React.useEffect(() => {}, []); */
   //Handlers
   const handleSwitch = (value) => {
-    localStorage.setItem(`switch-${currentUser._id}`, JSON.stringify(value));
+    localStorage.setItem(`switch-${currentUser._id}`, value);
+    setShortfilmSwitch(value);
     if (value) {
-      setShortfilmSwitch(value);
       const filteredMoviesData = value
         ? filteredMovies.filter(filterMoviesByDuration)
         : filteredMovies;
-      localStorage.setItem(`switch-${currentUser._id}`, JSON.stringify(true));
       setFilteredMovies(filteredMoviesData);
+      if (filteredMoviesData.length === 0) {
+        setNotFound(true);
+      } else {
+        setNotFound(false);
+      }
     } else {
-      setShortfilmSwitch(false);
-      handleSearchFormSubmit(
-        JSON.parse(localStorage.getItem(`searchQuery-${currentUser._id}`))
-      );
+      handleSearchFormSubmit(searchQuery);
     }
   };
-  const handleSearchFormSubmit = (searchQuery) => {
+  const handleSearchFormSubmit = async (searchQuery) => {
     setIsLoading(true);
-    let filteredMoviesData = filter(searchQuery, isShortfilmSwitchOn);
-    setFilteredMovies(filteredMoviesData);
-    if (filteredMoviesData === []) {
-      setNotFound(true);
-    } else {
+    try {
+      setSearchQuery(searchQuery);
+      /*       localStorage.setItem(
+        `searchQuery-${currentUser._id}`,
+        JSON.stringify(searchQuery)
+      ); */
+      let filteredMoviesData = await filter(searchQuery, isShortfilmSwitchOn);
       setFilteredMovies(filteredMoviesData);
-    }
-    setIsLoading(false);
-  };
+      console.log(filteredMovies);
+      console.log(filteredMoviesData);
 
+      const searchResultData = { filteredMoviesData, isShortfilmSwitchOn };
+
+      console.log(searchResultData);
+      localStorage.setItem(
+        `searchResult-${currentUser._id}`,
+        JSON.stringify(searchResultData)
+      );
+      setSearchResult(searchResultData);
+    } catch (e) {
+      setNotFound(true);
+      setFilteredMovies([]);
+      console.log(e);
+    } finally {
+      /*   if (filteredMovies.length === 0) {
+        setNotFound(true);
+      } else {
+        setNotFound(false);
+      } */
+      setIsLoading(false);
+    }
+  };
   return (
     <Route path="/movies">
       <main className="main">
@@ -87,6 +175,8 @@ function Movies({
           /* setIsLoading={setIsLoading} */
           onSubmit={handleSearchFormSubmit}
           onSwitch={handleSwitch}
+          isShortfilmSwitchOn={isShortfilmSwitchOn}
+          setShortfilmSwitch={setShortfilmSwitch}
         />
         {isLoading ? (
           <Preloader isLoading={isLoading} />
