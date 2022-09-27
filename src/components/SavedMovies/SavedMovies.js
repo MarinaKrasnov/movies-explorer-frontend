@@ -22,19 +22,22 @@ function SavedMovies({
   const [isFiltered, setIsFiltered] = React.useState(false);
   const [filteredSavedMovies, setfilteredSavedMovies] = React.useState([]);
   const [rMovies, setNotFound] = React.useState(true);
-  /*   const [searchQuery, setSearchQuery] = React.useState(""); */
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const displayedMovies = isFiltered ? filteredSavedMovies : savedMovies;
   React.useEffect(() => {
-    const displayedMovies = isFiltered ? filteredSavedMovies : savedMovies;
-    if (displayedMovies.length === 0) {
-      setNotFound(true);
-    } else {
+    if (!savedMovies && getSavedMoviesData) {
+      getSavedMoviesData();
+    }
+  }, [getSavedMoviesData, savedMovies]);
+  React.useEffect(() => {
+    if (displayedMovies.length !== 0) {
       setNotFound(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filteredSavedMovies, savedMovies, isFiltered]);
+  }, [displayedMovies]);
   //Handlers
   const handleSwitch = (value) => {
-    setIsFiltered(true);
+    setIsFiltered(value);
     setSavedShortfilmSwitch(value);
     if (savedMovies.length === 0) {
       setNotFound(true);
@@ -43,9 +46,7 @@ function SavedMovies({
         ? savedMovies.filter(filterMoviesByDuration)
         : savedMovies;
       setfilteredSavedMovies(filteredSavedMoviesData);
-      if (filteredSavedMoviesData.length === 0) {
-        setNotFound(true);
-      } else {
+      if (filteredSavedMoviesData.length !== 0) {
         setNotFound(false);
       }
     }
@@ -95,7 +96,7 @@ function SavedMovies({
           <p className="movies__not-found">«Ничего не найдено»</p>
         ) : (
           <MoviesCardList
-            savedMovies={isFiltered ? filteredSavedMovies : savedMovies}
+            savedMovies={displayedMovies}
             screenSize={screenSize}
             jwt={jwt}
             setSavedMovies={setSavedMovies}

@@ -21,7 +21,7 @@ import Preloader from "../Preloader/Preloader.js";
 
 function App() {
   // State constants
-  const [jwt, setJWT] = React.useState(localStorage.getItem("jwt"));
+  const [jwt, setJWT] = React.useState("");
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState({});
   const [movies, setMovies] = React.useState([]);
@@ -35,7 +35,8 @@ function App() {
 
   const location = useLocation();
   const checkToken = React.useCallback(() => {
-    /* const jwt = localStorage.getItem(`jwt-${currentUser._id}`); */
+    const jwt = localStorage.getItem("jwt");
+    console.log(jwt);
     if (jwt) {
       auth
         .checkToken(jwt)
@@ -202,6 +203,7 @@ function App() {
           setMessage(true);
           setInfoTooltip(true);
           setJWT(response.token);
+          console.log(response.token);
           localStorage.setItem("jwt", response.token);
           setIsLoggedIn(true);
           history.push("/movies");
@@ -225,6 +227,7 @@ function App() {
         if (response.token) {
           setJWT(response.token);
           setCurrentUser(response);
+          console.log(response.token);
           localStorage.setItem("jwt", response.token);
           setIsLoggedIn(true);
           history.push("/movies");

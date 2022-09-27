@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import MainApi from "../../utils/MainApi";
 import "./MoviesCard.css";
@@ -74,23 +74,22 @@ function MoviesCard({ item, setSavedMovies, savedMovies, jwt }) {
             alert(`Ошибка ${err}, попробуйте еще раз`);
           });
   };
-  /*   const handleCardClick = (item) => {
-    window.open(item.trailerLink, "_blank");
-  }; */
+  function handleCardClick() {
+    window.open(item.trailerLink);
+  }
 
   return (
     <article className="movies-card" aria-label="Карточка" key={item.movieId}>
-      <a href={item.trailerLink}>
-        <img
-          className="movies-card__image"
-          /*      src={`${MoviesApi._url}${item.image.url}`} */
-          src={item.image}
-          /*      style={{ backgroundImage: `url(${item.image})` }} */
-          alt={`Обложка ${item.nameRU}`}
-          /*  onClick={window.open(`${item.trailer}, '_blank', 'location=yes,scrollbars=yes,status=yes'`)} */
-          /*           onClick={handleCardClick} */
-        />
-      </a>
+      <img
+        className="movies-card__image"
+        /*      src={`${MoviesApi._url}${item.image.url}`} */
+        src={item.image}
+        /*      style={{ backgroundImage: `url(${item.image})` }} */
+        alt={`Обложка ${item.nameRU}`}
+        /*  onClick={window.open(`${item.trailer}, '_blank', 'location=yes,scrollbars=yes,status=yes'`)} */
+        /*           onClick={handleCardClick} */
+        onClick={handleCardClick}
+      />
       <>
         <button
           type="button"
