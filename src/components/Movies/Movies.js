@@ -48,7 +48,10 @@ function Movies({
     setNotFound(false); */
 
   React.useEffect(() => {
-    if (filteredMovies.length === 0) {
+    if (
+      filteredMovies.length === 0 &&
+      !!localStorage.getItem(`searchResult-${currentUser._id}`)
+    ) {
       const updatedQueryData = localStorage.getItem(
         `searchResult-${currentUser._id}`
       )

@@ -24,13 +24,14 @@ function SavedMovies({
   const [rMovies, setNotFound] = React.useState(true);
   /*   const [searchQuery, setSearchQuery] = React.useState(""); */
   React.useEffect(() => {
-    if (filteredSavedMovies.length === 0) {
-      setNotFound(false);
-    } else {
+    const displayedMovies = isFiltered ? filteredSavedMovies : savedMovies;
+    if (displayedMovies.length === 0) {
       setNotFound(true);
+    } else {
+      setNotFound(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filteredSavedMovies]);
+  }, [filteredSavedMovies, savedMovies, isFiltered]);
   //Handlers
   const handleSwitch = (value) => {
     setIsFiltered(true);
@@ -55,7 +56,7 @@ function SavedMovies({
       setIsFiltered(true);
       /* setSearchQuery(searchQuery); */
       console.log("searchQuery", searchQuery);
-      if (savedMovies.length === 0 || filteredSavedMovies.length === 0) {
+      if (!savedMovies || !filteredSavedMovies) {
         setNotFound(true);
       } else {
         setNotFound(false);
@@ -76,6 +77,7 @@ function SavedMovies({
       setfilteredSavedMovies([]);
       console.log(e);
     } finally {
+      setIsLoading(false);
     }
   };
   return (
