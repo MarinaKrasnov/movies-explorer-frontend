@@ -21,11 +21,9 @@ import Preloader from "../Preloader/Preloader.js";
 
 function App() {
   // State constants
-  const [currentUser, setCurrentUser] = React.useState({});
+  const [jwt, setJWT] = React.useState(localStorage.getItem("jwt"));
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  const [jwt, setJWT] = React.useState(
-    localStorage.getItem(`jwt-${currentUser._id}`)
-  );
+  const [currentUser, setCurrentUser] = React.useState({});
   const [movies, setMovies] = React.useState([]);
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [size, setSize] = useState([window.innerWidth, window.innerHeight]);
@@ -37,7 +35,7 @@ function App() {
 
   const location = useLocation();
   const checkToken = React.useCallback(() => {
-    const jwt = localStorage.getItem(`jwt-${currentUser._id}`);
+    /* const jwt = localStorage.getItem(`jwt-${currentUser._id}`); */
     if (jwt) {
       auth
         .checkToken(jwt)
@@ -48,9 +46,9 @@ function App() {
             setCurrentUser(res);
             history.push("/movies");
           }
-          /*    if (res.message) {
+          if (res.message) {
             handleSignOut();
-          } */
+          }
         })
         .catch((err) => alert(err, err.message))
         .finally(() => {
@@ -62,13 +60,15 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jwt]);
   const getSavedMoviesData = async () => {
+    let savedMoviesData = [];
     if (localStorage.getItem(`savedMovies-${currentUser._id}`)) {
-      setSavedMovies(
-        JSON.parse(localStorage.getItem(`savedMovies-${currentUser._id}`))
+      let savedMoviesData = JSON.parse(
+        localStorage.getItem(`savedMovies-${currentUser._id}`)
       );
+      setSavedMovies(savedMoviesData);
     }
     if (
-      !savedMovies /* ||
+      savedMoviesData === [] /* ||
       !savedMovies.some((movie) => movie.owner === currentUser._id) */
     ) {
       MainApi.getSavedMovies(jwt)
@@ -125,8 +125,8 @@ function App() {
   useEffect(() => {
     setIsLoading(true);
     checkToken();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkToken]);
+
   useEffect(() => {
     if (isLoggedIn && jwt) {
       setIsLoading(true);
@@ -202,7 +202,7 @@ function App() {
           setMessage(true);
           setInfoTooltip(true);
           setJWT(response.token);
-          localStorage.setItem(`jwt-${currentUser._id}`, response.token);
+          localStorage.setItem("jwt", response.token);
           setIsLoggedIn(true);
           history.push("/movies");
         } else {
@@ -225,7 +225,7 @@ function App() {
         if (response.token) {
           setJWT(response.token);
           setCurrentUser(response);
-          localStorage.setItem(`jwt-${currentUser._id}`, response.token);
+          localStorage.setItem("jwt", response.token);
           setIsLoggedIn(true);
           history.push("/movies");
         } else {

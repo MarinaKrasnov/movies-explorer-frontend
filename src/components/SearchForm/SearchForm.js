@@ -9,12 +9,12 @@ function SearchForm({
   isShortfilmSwitchOn,
   setShortfilmSwitch,
 }) {
-  const { handleChange, values, setValues } = useForm();
+  const { handleChange, values } = useForm();
   const submit = (e) => {
     e.preventDefault();
     /*     setIsLoading(true); */
     if (onSubmit && values.search) {
-      setValues(values.search);
+      /*   setValues(values.search); */
       console.log(values.search);
       onSubmit(values.search);
     } else alert("error");

@@ -74,21 +74,23 @@ function MoviesCard({ item, setSavedMovies, savedMovies, jwt }) {
             alert(`Ошибка ${err}, попробуйте еще раз`);
           });
   };
-  const handleCardClick = (item) => {
+  /*   const handleCardClick = (item) => {
     window.open(item.trailerLink, "_blank");
-  };
+  }; */
 
   return (
     <article className="movies-card" aria-label="Карточка" key={item.movieId}>
-      <img
-        className="movies-card__image"
-        /*      src={`${MoviesApi._url}${item.image.url}`} */
-        src={item.image}
-        /*      style={{ backgroundImage: `url(${item.image})` }} */
-        alt={`Обложка ${item.nameRU}`}
-        /*  onClick={window.open(`${item.trailer}, '_blank', 'location=yes,scrollbars=yes,status=yes'`)} */
-        onClick={handleCardClick}
-      />
+      <a href={item.trailerLink}>
+        <img
+          className="movies-card__image"
+          /*      src={`${MoviesApi._url}${item.image.url}`} */
+          src={item.image}
+          /*      style={{ backgroundImage: `url(${item.image})` }} */
+          alt={`Обложка ${item.nameRU}`}
+          /*  onClick={window.open(`${item.trailer}, '_blank', 'location=yes,scrollbars=yes,status=yes'`)} */
+          /*           onClick={handleCardClick} */
+        />
+      </a>
       <>
         <button
           type="button"
