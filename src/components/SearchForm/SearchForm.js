@@ -12,10 +12,7 @@ function SearchForm({
   const { handleChange, values } = useForm();
   const submit = (e) => {
     e.preventDefault();
-    /*     setIsLoading(true); */
     if (onSubmit && values.search) {
-      /*   setValues(values.search); */
-      console.log(values.search);
       onSubmit(values.search);
     } else alert("error");
   };

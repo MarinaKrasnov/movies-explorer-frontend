@@ -1,7 +1,8 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import MainApi from "../../utils/MainApi";
+
 import "./MoviesCard.css";
 
 function MoviesCard({ item, setSavedMovies, savedMovies, jwt }) {

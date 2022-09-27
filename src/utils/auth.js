@@ -12,7 +12,7 @@ export const register = (name, email, password) => {
     if (response.status === 201) {
       return response.json();
     } else {
-      throw new Error("409 - Unsuccessful registration");
+      throw new Error("Unsuccessful registration");
     }
   });
 };

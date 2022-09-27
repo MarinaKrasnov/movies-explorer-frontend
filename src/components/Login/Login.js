@@ -4,7 +4,7 @@ import { useFormWithValidation } from "../Validation";
 import "./Login.css";
 import logo from "../../images/logo.svg";
 
-const Login = ({ onLogin }) => {
+const Login = ({ onLogin, isLoading }) => {
   const { handleChange, values, isValid } = useFormWithValidation();
   /*   const [inputs, setInputs] = React.useState({
     email: "",
@@ -47,6 +47,7 @@ const Login = ({ onLogin }) => {
             className="form__input"
             placeholder="pochta@yandex.ru"
             required
+            disabled={isLoading}
           />
           <label htmlFor="password" className="form__label">
             Пароль
@@ -60,6 +61,7 @@ const Login = ({ onLogin }) => {
             className="form__input"
             placeholder="Пароль"
             required
+            disabled={isLoading}
           />
           <div className="form__button-container">
             <button

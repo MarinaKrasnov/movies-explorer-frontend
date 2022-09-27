@@ -22,13 +22,13 @@ function SavedMovies({
   const [isFiltered, setIsFiltered] = React.useState(false);
   const [filteredSavedMovies, setfilteredSavedMovies] = React.useState([]);
   const [rMovies, setNotFound] = React.useState(true);
-  const [searchQuery, setSearchQuery] = React.useState("");
+  /* const [searchQuery, setSearchQuery] = React.useState(""); */
   const displayedMovies = isFiltered ? filteredSavedMovies : savedMovies;
-  React.useEffect(() => {
+  /*  React.useEffect(() => {
     if (!savedMovies && getSavedMoviesData) {
       getSavedMoviesData();
     }
-  }, [getSavedMoviesData, savedMovies]);
+  }, [getSavedMoviesData, savedMovies]); */
   React.useEffect(() => {
     if (displayedMovies.length !== 0) {
       setNotFound(false);
@@ -41,6 +41,7 @@ function SavedMovies({
     setSavedShortfilmSwitch(value);
     if (savedMovies.length === 0) {
       setNotFound(true);
+      return;
     } else {
       const filteredSavedMoviesData = value
         ? savedMovies.filter(filterMoviesByDuration)
@@ -55,7 +56,7 @@ function SavedMovies({
     try {
       setIsLoading(true);
       setIsFiltered(true);
-      /* setSearchQuery(searchQuery); */
+      /*       setSearchQuery(searchQuery); */
       console.log("searchQuery", searchQuery);
       if (!savedMovies || !filteredSavedMovies) {
         setNotFound(true);
@@ -96,7 +97,7 @@ function SavedMovies({
           <p className="movies__not-found">«Ничего не найдено»</p>
         ) : (
           <MoviesCardList
-            savedMovies={displayedMovies}
+            savedMovies={isFiltered ? filteredSavedMovies : savedMovies}
             screenSize={screenSize}
             jwt={jwt}
             setSavedMovies={setSavedMovies}

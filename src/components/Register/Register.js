@@ -5,7 +5,7 @@ import { useFormWithValidation } from "../Validation";
 import "./Register.css";
 import logo from "../../images/logo.svg";
 
-const Register = ({ onRegister }) => {
+const Register = ({ onRegister, isLoading }) => {
   const { handleChange, values, isValid } = useFormWithValidation();
   /*  const [values, setvalues] = React.usevalues({
     name: "",
@@ -51,6 +51,7 @@ const Register = ({ onRegister }) => {
             required
             minLength="2"
             maxLength="30"
+            disabled={isLoading}
           />
           <label htmlFor="email" className="form__label">
             E-mail
@@ -77,6 +78,7 @@ const Register = ({ onRegister }) => {
             className="form__input"
             placeholder="Пароль"
             required
+            disabled={isLoading}
           />
           <div className="form__button-container">
             <button

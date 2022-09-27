@@ -5,10 +5,9 @@ import "./Profile.css";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { useFormWithValidation } from "../Validation";
 
-function Profile({ onEdit, signOut }) {
-  const { handleChange, values, isValid } = useFormWithValidation();
+function Profile({ onEdit, signOut, isLoading }) {
+  const { handleChange, values } = useFormWithValidation();
   const currentUser = useContext(CurrentUserContext);
-
   const onEditing = (e) => {
     e.preventDefault();
     if (onEdit && values.email) {
@@ -37,6 +36,7 @@ function Profile({ onEdit, signOut }) {
                 required
                 minLength="2"
                 maxLength="30"
+                disabled={isLoading}
               />
             </label>
             <div className="profile__line"></div>
@@ -50,21 +50,20 @@ function Profile({ onEdit, signOut }) {
                 onChange={handleChange}
                 className="profile__input"
                 required
+                disabled={isLoading}
               />
             </label>
           </fieldset>
           <div className="form__button-container">
             <div className="form__sign-in-up profile__links">
-              {isValid ? (
-                <button
-                  type="submit"
-                  className="button form__text-below-submit profile__edit"
-                >
-                  Редактировать
-                </button>
-              ) : (
-                ""
-              )}
+              <button
+                type="submit"
+                className="button form__text-below-submit profile__edit"
+                /*  disabled={!isValid}  */
+              >
+                Редактировать
+              </button>
+
               <button
                 className=" button link form__link form__link-below-submit profile__signout "
                 onClick={signOut}
