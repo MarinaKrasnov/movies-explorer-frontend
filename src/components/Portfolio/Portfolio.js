@@ -1,5 +1,4 @@
 import React from "react";
-/* import { Link } from "react-router-dom"; */
 import "./Portfolio.css";
 import me from "../../images/me.png";
 
@@ -21,13 +20,11 @@ function Portfolio() {
         </div>
         <img className="portfolio__image" src={me} alt="the Author" />
       </div>
-
       <a
         className="link  portfolio__github"
         href="https://github.com/MarinaKrasnov"
         target="_blank"
         rel=" noreferrer"
-        /* onClick={window.open("https://github.com/MarinaKrasnov")} */
       >
         Github
       </a>
@@ -39,9 +36,6 @@ function Portfolio() {
             href="https://marinakrasnov.github.io/how-to-learn/"
             target="_blank"
             rel=" noreferrer"
-            /*   onClick={window.open(
-              "https://marinakrasnov.github.io/how-to-learn/"
-            )} */
           >
             Статичный сайт
           </a>
@@ -52,9 +46,6 @@ function Portfolio() {
             href="https://marinakrasnov.github.io/russian-travel/"
             target="_blank"
             rel=" noreferrer"
-            /*     onClick={window.open(
-              "https://marinakrasnov.github.io/russian-travel/"
-            )} */
           >
             Адаптивный сайт
           </a>
@@ -65,7 +56,6 @@ function Portfolio() {
             href="http://marina.nomorepartiesxyz.ru"
             target="_blank"
             rel=" noreferrer"
-            /*          onClick={window.open("http://marina.nomorepartiesxyz.ru")} */
           >
             Одностраничное приложение
           </a>

@@ -274,7 +274,7 @@ function App() {
     localStorage.removeItem("jwt");
     localStorage.removeItem(`savedMovies-${currentUser._id}`);
     localStorage.removeItem(`movies-${currentUser._id}`);
-    localStorage.removeItem(`searchQuery-${currentUser._id}`);
+    localStorage.removeItem(`searchResult-${currentUser._id}`);
     setJWT("");
     setIsLoggedIn(false);
     setSavedMovies([]);
