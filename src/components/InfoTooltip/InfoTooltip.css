@@ -19,6 +19,14 @@
     opacity: 1;
 }
 
+.popup__main-title {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    justify-self: center;
+    text-align: center;
+}
+
 .popup_type_message {
     display: flex;
     justify-content: center;

@@ -3,9 +3,9 @@ import success from "../../images/success.svg";
 import error from "../../images/error.svg";
 import "./InfoTooltip.css";
 
-function InfoTooltip({ message, isOpen, onClose }) {
-  const mode = message ? "Успех!" : "Что-то пошло не так! Попробуйте ещё раз.";
-  const image = message ? `${success}` : `${error}`;
+function InfoTooltip({ message, bool, isOpen, onClose }) {
+  const image = bool ? `${success}` : `${error}`;
+  const mode = bool ? "Успех" : message;
   return (
     <div className={`overlay ${isOpen && "overlay_active"}`}>
       <div className=" popup_type_message">

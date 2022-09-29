@@ -7,20 +7,6 @@ import logo from "../../images/logo.svg";
 
 const Register = ({ onRegister, isLoading }) => {
   const { handleChange, values, isValid } = useFormWithValidation();
-  /*  const [values, setvalues] = React.usevalues({
-    name: "",
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setvalues((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
- */
   const handleSubmit = (e) => {
     e.preventDefault();
     if (onRegister && values.email) {
@@ -64,7 +50,9 @@ const Register = ({ onRegister, isLoading }) => {
             onChange={handleChange}
             className="form__input"
             placeholder="pochta@yandex.ru"
+            disabled={isLoading}
             required
+            /*     pattern="^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$" */
           />
           <label htmlFor="password" className="form__label">
             Пароль

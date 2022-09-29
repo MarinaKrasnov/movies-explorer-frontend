@@ -6,20 +6,6 @@ import logo from "../../images/logo.svg";
 
 const Login = ({ onLogin, isLoading }) => {
   const { handleChange, values, isValid } = useFormWithValidation();
-  /*   const [inputs, setInputs] = React.useState({
-    email: "",
-    password: "",
-  });
-  /*   const [message, setMessage] = React.useState('') */
-
-  /*   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setInputs((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
- */
   const handleSubmit = (event) => {
     event.preventDefault();
     if (onLogin && values.email && values.password) {
@@ -48,6 +34,7 @@ const Login = ({ onLogin, isLoading }) => {
             placeholder="pochta@yandex.ru"
             required
             disabled={isLoading}
+           /*  pattern="^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$" */
           />
           <label htmlFor="password" className="form__label">
             Пароль
@@ -69,6 +56,7 @@ const Login = ({ onLogin, isLoading }) => {
               className={
                 isValid ? "form__submit" : "form__submit form__submit_disabled"
               }
+              disabled={isLoading}
             >
               Войти
             </button>

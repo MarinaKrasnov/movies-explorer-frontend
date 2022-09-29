@@ -6,11 +6,38 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { useFormWithValidation } from "../Validation";
 
 function Profile({ onEdit, signOut, isLoading }) {
-  const { handleChange, values } = useFormWithValidation();
   const currentUser = useContext(CurrentUserContext);
+  const { handleChange, values, isValid, resetForm, errors, setValidation } =
+    useFormWithValidation();
+  //Effects
+  React.useEffect(() => {
+    resetForm({ name: currentUser.name, email: currentUser.email });
+  }, [currentUser, resetForm]);
+  React.useEffect(() => {
+    // проверяем на равенство значений двух объектов
+    // текущий пользователь и значения в инпутах
+    if (
+      JSON.stringify({ name: currentUser.name, email: currentUser.email }) ===
+      JSON.stringify(values)
+    ) {
+      // отключаем кнопку
+      setValidation(false);
+    } else {
+      // проверка на валидность
+      if (
+        Object.keys(errors).length === 0 &&
+        Object.values(values).length === 2
+      ) {
+        setValidation(true);
+      } else {
+        setValidation(false);
+      }
+    }
+  }, [values, errors, currentUser.name, currentUser.email, setValidation]);
+  //Handlers
   const onEditing = (e) => {
     e.preventDefault();
-    if (onEdit && values.email) {
+    if (onEdit && values) {
       onEdit(values.name, values.email);
     }
   };
@@ -30,10 +57,10 @@ function Profile({ onEdit, signOut, isLoading }) {
                 id="name"
                 name="name"
                 type="name"
-                defaultValue={currentUser.name}
+                /*     defaultValue={currentUser.name} */
+                value={values.name || ""}
                 onChange={handleChange}
                 className=" profile__input"
-                required
                 minLength="2"
                 maxLength="30"
                 disabled={isLoading}
@@ -46,10 +73,10 @@ function Profile({ onEdit, signOut, isLoading }) {
                 id="email"
                 name="email"
                 type="email"
-                defaultValue={currentUser.email}
+                /*     defaultValue={currentUser.email} */
+                value={values.email || ""}
                 onChange={handleChange}
                 className="profile__input"
-                required
                 disabled={isLoading}
               />
             </label>
@@ -59,7 +86,7 @@ function Profile({ onEdit, signOut, isLoading }) {
               <button
                 type="submit"
                 className="button form__text-below-submit profile__edit"
-                /*  disabled={!isValid}  */
+                disabled={isLoading && !isValid}
               >
                 Редактировать
               </button>

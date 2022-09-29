@@ -54,7 +54,20 @@
     owner: 1,
   },
 ]; */
-
+export const ERROR_MESSAGES = {
+  notFound: "Requested resource not found.",
+  unauthorized: "Authorization Required",
+  serverError: "An error has occured on the server.",
+  dataBadRequest: "Data validation failed.",
+  movieNotFound: "Movie not found.",
+  deleteMovie: "You dont have right to delete this movie.",
+  signin: "Incorrect email or password.",
+  signup: "Unable to create a user with the credentials provided.",
+  userExists: "Such a user already exists.",
+  userBadRequest: "User not found.",
+  jwtChecked: "Jwts been checked. jwt is not valid",
+  jwtNotValid: "Jwt not valid",
+};
 export const DEFAULT_ERROR_MESSAGE = "Request failed";
 export const UNKNOWN_CARD_TEXT = "Unknown";
 export const MAX_DURATION_SHORT_FILM = 40;

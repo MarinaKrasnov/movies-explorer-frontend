@@ -22,7 +22,7 @@ import {
   DEFAULT_ERROR_MESSAGE,
   MAX_DURATION_SHORT_FILM,
 } from "../../utils/constants";
-import { NOTIFICATION_DURATION } from "../../utils/constants";
+import { ERROR_MESSAGES } from "../../utils/constants";
 
 function App() {
   // State constants
@@ -33,37 +33,36 @@ function App() {
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [size, setSize] = useState([window.innerWidth, window.innerHeight]);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isFormLoading, setFormLoading] = React.useState(false);
   const history = useHistory();
   const [isInfoTooltipOpen, setInfoTooltip] = React.useState(false);
-  const [message, setMessage] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
   const [isPopupOpen, setPopupOpen] = React.useState(false);
 
-  const [profileMessage, setProfileMessage] = useState("");
-  const [profileMessageModifier, setProfileMessageModifier] = useState(false);
   const [savedMoviesMessage, setSavedMoviesMessage] = useState("");
   const [unauthPageMessage, setUnauthPageMessage] = useState("");
-  const [popupError, setPopupError] = useState("");
-  const [popupErrorStatus, setPopupErrorStatus] = useState(false);
 
   const location = useLocation();
   //Effects
-  useEffect(() => {
+  /*   useEffect(() => {
     if (!!jwt && !popupErrorStatus) {
       setIsLoggedIn(true);
     }
-  }, [jwt, popupErrorStatus]);
+  }, [jwt, popupErrorStatus]); */
   useEffect(() => {
-    if (isLoggedIn) {
+    if (!!jwt) {
       MainApi.getProfileInfo(jwt)
-        .then((response) => setCurrentUser(response))
-        .catch((e) => {
-          showPopupError(e.message);
+        .then((response) => {
+          setCurrentUser(response);
+          setIsLoggedIn(true);
+        })
+        .catch(() => {
           setIsLoggedIn(false);
-          history.push("/signin");
+          handleSignOut();
         });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [jwt, isLoggedIn]);
+  }, [jwt]);
 
   useEffect(() => {
     if (!!currentUser._id && !!jwt) {
@@ -114,7 +113,7 @@ function App() {
   }, [jwt, currentUser._id]);
 
   useEffect(() => {
-    if (!!currentUser._id && !popupErrorStatus) {
+    if (!!currentUser._id) {
       if (!!localStorage.getItem(`savedMovies-${currentUser._id}`)) {
         const moviesData = JSON.parse(
           localStorage.getItem(`savedMovies-${currentUser._id}`)
@@ -166,7 +165,6 @@ function App() {
       : moviesData.filter(filterMoviesByKeyword);
     return filteredMoviesData;
   };
-  // Effects
 
   const closeByEsc = React.useCallback((e) => {
     if (e.key === "Escape") {
@@ -181,49 +179,42 @@ function App() {
     return () => document.removeEventListener("keydown", closeByEsc);
   }, [closeByEsc, isPopupOpen, isInfoTooltipOpen]);
 
-  const showProfileMessage = (text, modifier) => {
-    setProfileMessage(text);
-    setProfileMessageModifier(modifier);
-    setTimeout(() => setProfileMessageModifier(""), NOTIFICATION_DURATION);
-  };
-
-  const showPopupError = (text = "Что-то пошло не так") => {
-    setPopupError(text);
-    setPopupErrorStatus(true);
-    setTimeout(() => setPopupErrorStatus(false), NOTIFICATION_DURATION);
-  };
-
   //Handlers
 
   const handlePopup = () => {
     setPopupOpen((current) => !current);
   };
   const handleRegister = (name, email, password) => {
-    setIsLoading(true);
+    setFormLoading(true);
     auth
       .register(name, email, password)
       .then((response) => {
-        if (response) {
-          console.log(response);
+        if (response.email) {
           handleLogin(email, password);
+          console.log(response);
           setUnauthPageMessage("");
+          /*        setSuccess(true);
+          setInfoTooltip(true); */
         }
       })
-      .catch((e) => alert(e))
-      .then((e) => {
-        if (e?.message) {
-          setUnauthPageMessage(e.message);
+      .catch((res) => {
+        if (res.statusText === "Bad Request") {
+          setUnauthPageMessage(ERROR_MESSAGES.dataBadRequest);
+        } else if (res.status === 409) {
+          setUnauthPageMessage(ERROR_MESSAGES.userExists);
+        } else if (res.status === 401) {
+          setUnauthPageMessage(ERROR_MESSAGES.userBadRequest);
+        } else {
+          setUnauthPageMessage(`${ERROR_MESSAGES.serverError} ${res.status}`);
         }
-      })
-      .catch((err) => {
-        alert(err, err.message);
+        setInfoTooltip(true);
       })
       .finally(() => {
-        setIsLoading(false);
+        setFormLoading(false);
       });
   };
   const handleLogin = (email, password) => {
-    setIsLoading(true);
+    setFormLoading(true);
     auth
       .login(email, password)
       .then((response) => {
@@ -232,18 +223,48 @@ function App() {
           /*    setCurrentUser(response); */
           localStorage.setItem("jwt", response.token);
           setIsLoggedIn(true);
-          history.push("/movies");
           setUnauthPageMessage("");
+          setSuccess(true);
+          setInfoTooltip(true);
+          setTimeout(function () {
+            closeAllPopups();
+            history.push("/movies");
+          }, 2000);
         } else {
-          setMessage(false);
+          if (response.statusText === "Bad Request") {
+            setUnauthPageMessage(ERROR_MESSAGES.dataBadRequest);
+          } else if (response.status === 409) {
+            setUnauthPageMessage(ERROR_MESSAGES.userExists);
+          } else if (response.status === 401) {
+            setUnauthPageMessage(ERROR_MESSAGES.userBadRequest);
+          } else {
+            setUnauthPageMessage(
+              `${ERROR_MESSAGES.serverError} ${response.status}`
+            );
+          }
           setInfoTooltip(true);
         }
       })
-      .catch((err) => {
-        alert(err, err.message);
+      /*     .then(() => {
+        history.push("/movies");
+      }) */
+      /*      } else {
+          setSuccess(false);
+          setInfoTooltip(true); */
+      .catch((res) => {
+        if (res.statusText === "Bad Request") {
+          setUnauthPageMessage(ERROR_MESSAGES.dataBadRequest);
+        } else if (res.status === 409) {
+          setUnauthPageMessage(ERROR_MESSAGES.userExists);
+        } else if (res.status === 401) {
+          setUnauthPageMessage(ERROR_MESSAGES.userBadRequest);
+        } else {
+          setUnauthPageMessage(`${ERROR_MESSAGES.serverError} ${res.status}`);
+        }
+        setInfoTooltip(true);
       })
       .finally(() => {
-        setIsLoading(false);
+        setFormLoading(false);
       });
   };
   const closeAllPopups = () => {
@@ -252,22 +273,45 @@ function App() {
   };
 
   const handleEditing = (name, email) => {
-    setIsLoading(true);
+    setFormLoading(true);
     MainApi.editProfileInfo(name, email, jwt)
       .then((response) => {
-        if (response) {
+        if (response.name) {
           setCurrentUser(response);
-          setMessage(true);
+          setSuccess(true);
           setInfoTooltip(true);
-          showProfileMessage("Изменения сохранены", "success");
+          /*       } else {
+          setSuccess(false);
+          setInfoTooltip(true); */
         } else {
-          setMessage(false);
+          if (response.statusText === "Bad Request") {
+            setUnauthPageMessage(ERROR_MESSAGES.dataBadRequest);
+          } else if (response.status === 409) {
+            setUnauthPageMessage(ERROR_MESSAGES.userExists);
+          } else if (response.status === 401) {
+            setUnauthPageMessage(ERROR_MESSAGES.userBadRequest);
+          } else {
+            setUnauthPageMessage(
+              `${ERROR_MESSAGES.serverError} ${response.status}`
+            );
+          }
           setInfoTooltip(true);
         }
       })
-      .catch((e) => showProfileMessage(e.message, "fail"))
+      .catch((res) => {
+        if (res.statusText === "Bad Request") {
+          setUnauthPageMessage(ERROR_MESSAGES.dataBadRequest);
+        } else if (res.status === 409) {
+          setUnauthPageMessage(ERROR_MESSAGES.userExists);
+        } else if (res.status === 401) {
+          setUnauthPageMessage(ERROR_MESSAGES.userBadRequest);
+        } else {
+          setUnauthPageMessage(`${ERROR_MESSAGES.serverError} ${res.status}`);
+        }
+        setInfoTooltip(true);
+      })
       .finally(() => {
-        setIsLoading(false);
+        setFormLoading(false);
       });
   };
   const handleSignOut = () => {
@@ -285,35 +329,35 @@ function App() {
   const [width] = useWindowSize();
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <InfoTooltip message={popupError} isOpen={popupErrorStatus} />
-      {isLoading ? (
+      {/*   <InfoTooltip message={popupError} isOpen={popupErrorStatus} /> */}
+      {isLoading && !isInfoTooltipOpen ? (
         <Preloader />
       ) : (
         <Switch>
           <Route path="/signup" handleRegister={handleRegister}>
             <Register
               onRegister={handleRegister}
-              isLoading={isLoading}
-              message={unauthPageMessage}
-              setMessage={setUnauthPageMessage}
+              isLoading={isFormLoading}
+              /*         setMessage={setUnauthPageMessage} */
             />
             <InfoTooltip
               onClose={closeAllPopups}
               isOpen={isInfoTooltipOpen}
-              message={message}
+              message={unauthPageMessage}
+              bool={success}
             />
           </Route>
           <Route path="/signin" handleLogin={handleLogin}>
             <Login
               onLogin={handleLogin}
-              isLoading={isLoading}
-              message={unauthPageMessage}
+              isLoading={isFormLoading}
               setMessage={setUnauthPageMessage}
             />
             <InfoTooltip
               onClose={closeAllPopups}
               isOpen={isInfoTooltipOpen}
-              message={message}
+              message={unauthPageMessage}
+              bool={success}
             />
           </Route>
           <Route exact path="/" isLoggedIn={isLoggedIn}>
@@ -344,7 +388,6 @@ function App() {
               setMovies={setMovies}
               filter={filter}
               filterMoviesByDuration={filterMoviesByDuration}
-              cardErrorHandler={showPopupError}
             />
             <Navigation isPopupOpen={isPopupOpen} onClose={closeAllPopups} />
           </ProtectedRoute>
@@ -362,11 +405,10 @@ function App() {
               jwt={jwt}
               setSavedMovies={setSavedMovies}
               message={savedMoviesMessage}
-              cardErrorHandler={showPopupError}
-              /* getSavedMoviesData={getSavedMoviesData} */
               filter={filter}
               filterMoviesByDuration={filterMoviesByDuration}
             />
+            <Navigation isPopupOpen={isPopupOpen} onClose={closeAllPopups} />
           </ProtectedRoute>
           <ProtectedRoute path="/profile" isLoggedIn={isLoggedIn}>
             <Header
@@ -378,9 +420,15 @@ function App() {
             <Profile
               onEdit={handleEditing}
               signOut={handleSignOut}
-              isLoading={isLoading}
-              message={profileMessage}
-              messageModifier={profileMessageModifier}
+              isLoading={isFormLoading}
+
+              /*    messageModifier={profileMessageModifier} */
+            />
+            <InfoTooltip
+              onClose={closeAllPopups}
+              isOpen={isInfoTooltipOpen}
+              message={unauthPageMessage}
+              bool={success}
             />
             <Navigation isPopupOpen={isPopupOpen} onClose={closeAllPopups} />
           </ProtectedRoute>

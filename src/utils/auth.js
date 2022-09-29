@@ -8,13 +8,14 @@ export const register = (name, email, password) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ name, email, password }),
-  }).then((response) => {
+  }).then(checkResponse);
+  /*     .then((response) => {
     if (response.status === 201) {
       return response.json();
     } else {
       throw new Error("Unsuccessful registration");
     }
-  });
+  }); */
 };
 
 export const login = (email, password) => {
@@ -37,23 +38,13 @@ export const checkToken = (token) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-  }).then((response) => {
-    if (response.status === 200) {
-      return response.json();
-    } else {
-      return Promise.reject(
-        `Произошла ошибка: ${response.status}:${response.statusText}`
-      );
-    }
-  });
+  }).then(checkResponse);
 };
 
 const checkResponse = (response) => {
   if (response.ok) {
     return response.json();
   } else {
-    return Promise.reject(
-      `Произошла ошибка: ${response.status}:${response.statusText}`
-    );
+    return Promise.reject(response);
   }
 };
