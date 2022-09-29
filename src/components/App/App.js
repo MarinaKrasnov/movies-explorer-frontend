@@ -218,7 +218,8 @@ function App() {
     auth
       .login(email, password)
       .then((response) => {
-        if (response.token) {
+        if (!!response.token) {
+          console.log(response.token);
           setJWT(response.token);
           /*    setCurrentUser(response); */
           localStorage.setItem("jwt", response.token);
