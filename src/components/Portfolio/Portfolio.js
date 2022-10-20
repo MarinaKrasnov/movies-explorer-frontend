@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "./Portfolio.css";
 import me from "../../images/me.png";
 
@@ -21,7 +20,6 @@ function Portfolio() {
         </div>
         <img className="portfolio__image" src={me} alt="the Author" />
       </div>
-
       <a
         className="link  portfolio__github"
         href="https://github.com/MarinaKrasnov"

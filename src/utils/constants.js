@@ -1,4 +1,4 @@
-module.exports.movies = [
+/* module.exports.movies = [
   {
     country: "Russia",
     director: "Tarkosky",
@@ -53,4 +53,34 @@ module.exports.movies = [
     _id: Math.random().toString(),
     owner: 1,
   },
-];
+]; */
+export const ERROR_MESSAGES = {
+  notFound: "Requested resource not found.",
+  unauthorized: "Authorization Required",
+  serverError: "An error has occured on the server.",
+  dataBadRequest: "Data validation failed.",
+  movieNotFound: "Movie not found.",
+  deleteMovie: "You dont have right to delete this movie.",
+  signin: "Incorrect email or password.",
+  signup: "Unable to create a user with the credentials provided.",
+  userExists: "Such a user already exists.",
+  userBadRequest: "User not found.",
+  jwtChecked: "Jwts been checked. jwt is not valid",
+  jwtNotValid: "Jwt not valid",
+};
+export const DEFAULT_ERROR_MESSAGE = "Request failed";
+export const UNKNOWN_CARD_TEXT = "Unknown";
+export const MAX_DURATION_SHORT_FILM = 40;
+export const MOBILE_WIDTH = 437;
+export const TABLET_WIDTH = 837;
+export const LAPTOP_WIDTH = 1280;
+export const LARGE_PAGE_CARDS_COUNT = 12;
+export const LARGE_NEXT_PAGE_CARDS_COUNT = 12;
+export const MEDIUM_PAGE_CARDS_COUNT = 8;
+export const MEDIUM_NEXT_PAGE_CARDS_COUNT = 9;
+export const SMALL_PAGE_CARDS_COUNT = 5;
+export const SMALL_NEXT_PAGE_CARDS_COUNT = 6;
+export const ADDING_PAGE_AMOUNT_S = 2;
+export const ADDING_PAGE_AMOUNT_M = 4;
+export const ADDING_PAGE_AMOUNT_L = 6;
+export const NOTIFICATION_DURATION = 2500;

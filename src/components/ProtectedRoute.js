@@ -1,12 +1,10 @@
-import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
 
 const ProtectedRoute = ({ isLoggedIn, path, children }) => {
   return (
-    <Route path={path}>
-      {isLoggedIn ? children : <Redirect to={'/signin'} />}
-    </Route>
-  )
-}
+    <Route path={path}>{isLoggedIn ? children : <Redirect to={"/"} />}</Route>
+  );
+};
 
-export default ProtectedRoute
+export default ProtectedRoute;

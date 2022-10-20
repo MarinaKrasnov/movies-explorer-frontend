@@ -1,32 +1,95 @@
 import React from "react";
-/* import { CurrentUserContext } from "../../contexts/CurrentUserContext"; */
+import { useLocation } from "react-router-dom";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import MainApi from "../../utils/MainApi";
+
 import "./MoviesCard.css";
 
-function MoviesCard({ item }) {
-  const [isSaved, setIsSaved] = React.useState(false);
+function MoviesCard({ item, setSavedMovies, savedMovies, jwt }) {
+  const location = useLocation();
+  const currentUser = React.useContext(CurrentUserContext);
+  const isItemSaved = !!savedMovies
+    ? savedMovies.some((movie) => movie.movieId === item.movieId)
+    : false;
 
-  /* const currentUser = React.useContext(CurrentUserContext); */
-  /*   const currentUser = { _id: 1 };
-  const isOwn = item.owner === currentUser._id;
-  const MoviesDeleteButtonClassName = `button movies-card__button-delete ${
-    isOwn
-      ? "movies-card__button-delete_visible"
-      : "movies-card__button-delete_hidden"
-  }`; */
-  /*   const isSaved = item.likes.some((i) => i === currentUser._id); */
   const MoviesSavedButtonClassName = `button ${
-    isSaved ? "movies-card__button-saved" : "movies-card__button-save"
+    location.pathname === "/saved-movies"
+      ? "movies-card__button-delete "
+      : isItemSaved
+      ? "movies-card__button-saved"
+      : "movies-card__button-save"
   }`;
-  const handleSaveClick = () => {
-    setIsSaved((current) => !current);
+
+  const handleDelete = (item) => {
+    const savedMovie = savedMovies.find(
+      (movie) => movie.movieId === item.movieId
+    );
+    MainApi.deleteMovie(savedMovie._id, jwt)
+      .then((deletedMovie) => {
+        if (deletedMovie.message) {
+          MainApi.getSavedMovies(jwt).then((savedMovies) => {
+            localStorage.setItem(
+              `savedMovies-${currentUser._id}`,
+              JSON.stringify(savedMovies)
+            );
+            setSavedMovies(savedMovies);
+          });
+        } else {
+          const movies = savedMovies.filter((movie) => {
+            return deletedMovie.data._id !== movie._id;
+          });
+          localStorage.setItem(
+            `savedMovies-${currentUser._id}`,
+            JSON.stringify(movies)
+          );
+          setSavedMovies(movies);
+        }
+      })
+      .catch((err) => {
+        MainApi.getSavedMovies(jwt).then((savedMovies) => {
+          localStorage.setItem(
+            `savedMovies-${currentUser._id}`,
+            JSON.stringify(savedMovies)
+          );
+          setSavedMovies(savedMovies);
+        });
+        alert(`Ошибка ${err}, попробуйте еще раз`);
+      });
   };
+  const handleSaveClick = () => {
+    location.pathname === "/saved-movies"
+      ? handleDelete(item)
+      : isItemSaved
+      ? handleDelete(item)
+      : MainApi.saveMovie(item, jwt)
+          .then((item) => {
+            const savedMoviesElements =
+              savedMovies === null ? [item] : [...savedMovies, item];
+            localStorage.setItem(
+              `savedMovies-${currentUser._id}`,
+              JSON.stringify(savedMoviesElements)
+            );
+            setSavedMovies(savedMoviesElements);
+          })
+          .catch((err) => {
+            alert(`Ошибка ${err}, попробуйте еще раз`);
+          });
+  };
+  function handleCardClick() {
+    window.open(item.trailerLink);
+  }
+
   return (
-    <article className="movies-card" aria-label="Карточка" key={item._id}>
+    <article className="movies-card" aria-label="Карточка" key={item.movieId}>
       <img
         className="movies-card__image"
+        /*      src={`${MoviesApi._url}${item.image.url}`} */
         src={item.image}
         /*      style={{ backgroundImage: `url(${item.image})` }} */
         alt={`Обложка ${item.nameRU}`}
+        /*  onClick={window.open(`${item.trailer}, '_blank', 'location=yes,scrollbars=yes,status=yes'`)} */
+        /*           onClick={handleCardClick} */
+        onClick={handleCardClick}
       />
       <>
         <button

@@ -13,6 +13,11 @@
 .link:hover {
     opacity: .8;
     cursor: pointer;
+    text-decoration: underline;
+}
+
+.link:focus {
+    text-decoration: underline;
 }
 
 .link {
@@ -23,10 +28,6 @@
 
 .font-500 {
     font-weight: 500;
-}
-
-.underline {
-    text-decoration: underline;
 }
 
 .button:hover {
@@ -114,6 +115,7 @@
     --margin-top-promo-subtitle: 36px;
     --margin-bottom-promo-subtitle: 106px;
     --padding-promo-top: 75px;
+    --padding-promo-bottom: 30px;
     --about-project-container-item-padding-right: 120px;
     --margin-bottom-title: 70px;
     --margin-top-title: 110px;
@@ -124,6 +126,7 @@
 
 @media (max-width:1096px) {
     :root {
+
         --padding-promo-bottom: 30px;
     }
 }
@@ -202,4 +205,8 @@
         --margin-top-title: 70px;
         --width-movies-card-list-more: 240px;
     }
+}
+
+html {
+    scroll-behavior: smooth;
 }

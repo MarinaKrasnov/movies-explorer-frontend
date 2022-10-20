@@ -7,15 +7,18 @@ Demo link
 
 Description
 
-Backend for movie-explorer project
+Backend and fronend for movie-explorer project
 
 Technologies
 
 JS * React * Node * Express
 MongoDB * authorization
 ** Demo Link**
+pull request : https://github.com/MarinaKrasnov/movies-explorer-frontend/pull/2
 
 api: https://api.catalog.nomoredomains.sbs
+
+frontend: https://catalog.nomoredomains.sbs
 
 62.84.122.209
 

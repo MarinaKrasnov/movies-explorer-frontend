@@ -5,20 +5,20 @@ import menu from "../../images/menu.svg";
 import "./Header.css";
 import { Link } from "react-router-dom";
 
-function Header({ className, isLoggedIn, setIsPopup }) {
+function Header({ className, isLoggedIn, setPopupOpen,screenSize }) {
   const onPopup = () => {
-    setIsPopup(true);
+    setPopupOpen();
   };
   return (
     <header
       className={`header ${
-        isLoggedIn && window.innerWidth > 837 ? "header_type_loggedin" : ""
+        isLoggedIn && screenSize > 837 ? "header_type_loggedin" : ""
       } ${className ? className : ""} `}
     >
       <Link to="">
         <img className="header__logo" src={logo} alt="Логотип" />
       </Link>
-      {isLoggedIn && window.innerWidth > 837 ? (
+      {isLoggedIn && screenSize > 837 ? (
         <div>
           <Link to="movies">
             <button
@@ -40,22 +40,14 @@ function Header({ className, isLoggedIn, setIsPopup }) {
             <button className="button header__button ">Аккаунт</button>
           </Link>
         </div>
-      ) : (
-        ""
-      )}
-      {isLoggedIn && window.innerWidth < 837 ? (
-        <Link to="">
-          <img
-            src={className === "header_type_main" ? menu_theme_dark : menu}
-            className={"header__menu"}
-            alt="Menu"
-            onClick={onPopup}
-          />
-        </Link>
-      ) : (
-        ""
-      )}
-      {!isLoggedIn ? (
+      ) : isLoggedIn && screenSize < 837 ? (
+        <img
+          src={className === "header_type_main" ? menu_theme_dark : menu}
+          className=" header__menu"
+          alt="Menu"
+          onClick={setPopupOpen}
+        />
+      ) : !isLoggedIn ? (
         <div>
           <Link to="signup">
             <button
