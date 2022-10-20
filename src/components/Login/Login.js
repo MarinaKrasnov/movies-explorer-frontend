@@ -19,7 +19,7 @@ const Login = ({ onLogin, isLoading }) => {
           <Link to="">
             <img src={logo} alt="Logo" />
           </Link>
-          <p className="form__title">Рады видеть!</p>
+          <p className="form__title">Glad to see you!</p>
           {/*         <p className='register__error'>{inputs.message}</p> */}
           <label htmlFor="email" className="form__label">
             E-mail
@@ -31,13 +31,13 @@ const Login = ({ onLogin, isLoading }) => {
             value={values.email || ""}
             onChange={handleChange}
             className="form__input"
-            placeholder="pochta@yandex.ru"
+            placeholder="mail@google.com"
             required
             disabled={isLoading}
-           /*  pattern="^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$" */
+            /*  pattern="^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$" */
           />
           <label htmlFor="password" className="form__label">
-            Пароль
+            Password
           </label>
           <input
             id="password"
@@ -46,7 +46,7 @@ const Login = ({ onLogin, isLoading }) => {
             value={values.password || ""}
             onChange={handleChange}
             className="form__input"
-            placeholder="Пароль"
+            placeholder="Password"
             required
             disabled={isLoading}
           />
@@ -58,17 +58,15 @@ const Login = ({ onLogin, isLoading }) => {
               }
               disabled={isLoading}
             >
-              Войти
+              Sign in
             </button>
             <div className="form__sign-in-up">
-              <p className="form__text-below-submit">
-                Ещё не зарегистрированы?
-              </p>
+              <p className="form__text-below-submit">Do you have an account?</p>
               <Link
                 to="signup"
                 className="link form__link form__link-below-submit "
               >
-                Регистрация
+                Signup
               </Link>
             </div>
           </div>

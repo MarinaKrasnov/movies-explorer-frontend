@@ -44,11 +44,6 @@ function App() {
 
   const location = useLocation();
   //Effects
-  /*   useEffect(() => {
-    if (!!jwt && !popupErrorStatus) {
-      setIsLoggedIn(true);
-    }
-  }, [jwt, popupErrorStatus]); */
   useEffect(() => {
     if (!!jwt) {
       MainApi.getProfileInfo(jwt)
@@ -180,7 +175,6 @@ function App() {
   }, [closeByEsc, isPopupOpen, isInfoTooltipOpen]);
 
   //Handlers
-
   const handlePopup = () => {
     setPopupOpen((current) => !current);
   };
@@ -221,7 +215,6 @@ function App() {
         if (!!response.token) {
           console.log(response.token);
           setJWT(response.token);
-          /*    setCurrentUser(response); */
           localStorage.setItem("jwt", response.token);
           setIsLoggedIn(true);
           setUnauthPageMessage("");
@@ -422,8 +415,6 @@ function App() {
               onEdit={handleEditing}
               signOut={handleSignOut}
               isLoading={isFormLoading}
-
-              /*    messageModifier={profileMessageModifier} */
             />
             <InfoTooltip
               onClose={closeAllPopups}

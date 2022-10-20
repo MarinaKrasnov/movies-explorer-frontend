@@ -6,9 +6,6 @@ import "./Header.css";
 import { Link } from "react-router-dom";
 
 function Header({ className, isLoggedIn, setPopupOpen,screenSize }) {
-  const onPopup = () => {
-    setPopupOpen();
-  };
   return (
     <header
       className={`header ${
@@ -26,18 +23,18 @@ function Header({ className, isLoggedIn, setPopupOpen,screenSize }) {
                 className ? className : ""
               } `}
             >
-              Фильмы
+              Movies
             </button>
           </Link>
           <Link to="saved-movies">
             <button
               className={`button header__link ${className ? className : ""} `}
             >
-              Сохранённые фильмы
+              Saved movies
             </button>
           </Link>
           <Link to="profile">
-            <button className="button header__button ">Аккаунт</button>
+            <button className="button header__button ">Account</button>
           </Link>
         </div>
       ) : isLoggedIn && screenSize < 837 ? (
@@ -53,11 +50,11 @@ function Header({ className, isLoggedIn, setPopupOpen,screenSize }) {
             <button
               className={`${className ? className : ""} button header__link`}
             >
-              Регистрация
+              Signup
             </button>
           </Link>
           <Link to="signin">
-            <button className="link header__link header__signin ">Войти</button>
+            <button className="link header__link header__signin ">Sign</button>
           </Link>
         </div>
       ) : (

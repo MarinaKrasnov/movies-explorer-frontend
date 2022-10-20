@@ -21,10 +21,10 @@ const Register = ({ onRegister, isLoading }) => {
           <Link to="">
             <img src={logo} alt="Logo" />
           </Link>
-          <p className="form__title">Добро пожаловать!</p>
+          <p className="form__title">Welcome!</p>
           {/*   <p className="register__error">{values.message}</p> */}
           <label htmlFor="name" className="form__label">
-            Имя
+            Username
           </label>
           <input
             id="name"
@@ -33,7 +33,7 @@ const Register = ({ onRegister, isLoading }) => {
             value={values.name || ""}
             onChange={handleChange}
             className="form__input"
-            placeholder="Виталий"
+            placeholder="John"
             required
             minLength="2"
             maxLength="30"
@@ -49,13 +49,13 @@ const Register = ({ onRegister, isLoading }) => {
             value={values.email || ""}
             onChange={handleChange}
             className="form__input"
-            placeholder="pochta@yandex.ru"
+            placeholder="mail@gmail.com"
             disabled={isLoading}
             required
             /*     pattern="^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$" */
           />
           <label htmlFor="password" className="form__label">
-            Пароль
+            Password
           </label>
           <input
             id="password"
@@ -64,7 +64,7 @@ const Register = ({ onRegister, isLoading }) => {
             value={values.password || ""}
             onChange={handleChange}
             className="form__input"
-            placeholder="Пароль"
+            placeholder="******"
             required
             disabled={isLoading}
           />
@@ -75,15 +75,15 @@ const Register = ({ onRegister, isLoading }) => {
                 isValid ? "form__submit" : "form__submit form__submit_disabled"
               }
             >
-              Зарегистрироваться
+              Sing up
             </button>
             <div className="form__sign-in-up">
-              <p className="form__text-below-submit">Уже зарегистрированы? </p>
+              <p className="form__text-below-submit">Do you have an account?</p>
               <Link
                 to="signin"
                 className="link form__link form__link-below-submit "
               >
-                Войти
+                Sign in
               </Link>
             </div>
           </div>

@@ -53,7 +53,7 @@ function MoviesCard({ item, setSavedMovies, savedMovies, jwt }) {
           );
           setSavedMovies(savedMovies);
         });
-        alert(`Ошибка ${err}, попробуйте еще раз`);
+        alert(`Error ${err}, try again`);
       });
   };
   const handleSaveClick = () => {
@@ -72,7 +72,7 @@ function MoviesCard({ item, setSavedMovies, savedMovies, jwt }) {
             setSavedMovies(savedMoviesElements);
           })
           .catch((err) => {
-            alert(`Ошибка ${err}, попробуйте еще раз`);
+            alert(`Error ${err}, try again`);
           });
   };
   function handleCardClick() {
@@ -86,7 +86,7 @@ function MoviesCard({ item, setSavedMovies, savedMovies, jwt }) {
         /*      src={`${MoviesApi._url}${item.image.url}`} */
         src={item.image}
         /*      style={{ backgroundImage: `url(${item.image})` }} */
-        alt={`Обложка ${item.nameRU}`}
+        alt={`Обложка ${item.nameEN}`}
         /*  onClick={window.open(`${item.trailer}, '_blank', 'location=yes,scrollbars=yes,status=yes'`)} */
         /*           onClick={handleCardClick} */
         onClick={handleCardClick}
@@ -95,11 +95,11 @@ function MoviesCard({ item, setSavedMovies, savedMovies, jwt }) {
         <button
           type="button"
           className={MoviesSavedButtonClassName}
-          aria-label="Кнопка"
+          aria-label="Button"
           onClick={handleSaveClick}
         />
         <div className="movies-card__info">
-          <h3 className="movies-card__text">{item.nameRU}</h3>
+          <h3 className="movies-card__text">{item.nameEN}</h3>
           <p className="movies-card__duration">{item.duration}</p>
         </div>
       </>

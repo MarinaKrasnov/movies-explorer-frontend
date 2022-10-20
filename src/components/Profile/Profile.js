@@ -14,16 +14,12 @@ function Profile({ onEdit, signOut, isLoading }) {
     resetForm({ name: currentUser.name, email: currentUser.email });
   }, [currentUser, resetForm]);
   React.useEffect(() => {
-    // проверяем на равенство значений двух объектов
-    // текущий пользователь и значения в инпутах
     if (
       JSON.stringify({ name: currentUser.name, email: currentUser.email }) ===
       JSON.stringify(values)
     ) {
-      // отключаем кнопку
       setValidation(false);
     } else {
-      // проверка на валидность
       if (
         Object.keys(errors).length === 0 &&
         Object.values(values).length === 2
@@ -49,10 +45,10 @@ function Profile({ onEdit, signOut, isLoading }) {
           onSubmit={onEditing}
         >
           <fieldset className=" profile__top">
-            <p className="profile__title">Привет, {currentUser.name}!</p>
+            <p className="profile__title">Welcome, {currentUser.name}!</p>
             <p className="register__error"></p>
             <label htmlFor="name" className="profile__label">
-              Имя
+              Username
               <input
                 id="name"
                 name="name"
@@ -88,14 +84,14 @@ function Profile({ onEdit, signOut, isLoading }) {
                 className="button form__text-below-submit profile__edit"
                 disabled={isLoading && !isValid}
               >
-                Редактировать
+                Edit user info
               </button>
 
               <button
                 className=" button link form__link form__link-below-submit profile__signout "
                 onClick={signOut}
               >
-                Выйти из аккаунта
+                LOG OUT
               </button>
             </div>
           </div>

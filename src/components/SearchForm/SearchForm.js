@@ -29,7 +29,7 @@ function SearchForm({
       <div className="search-form__container">
         <input
           className="search-form__input"
-          placeholder="Фильм"
+          placeholder="Movie"
           name="search"
           onChange={handleChange}
           required
@@ -50,7 +50,7 @@ function SearchForm({
           <span className="search-form__slider"></span>
         </label>
         <label htmlFor="checkbox" className="search-form__text">
-          Короткометражки
+          Short Films
         </label>
       </div>
     </form>

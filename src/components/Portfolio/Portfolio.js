@@ -5,17 +5,24 @@ import me from "../../images/me.png";
 function Portfolio() {
   return (
     <section className=" section portfolio">
-      <p className="title">Студент</p>
+      <p className="title">Web developer</p>
       <div className="portfolio__container">
         <div className="portfolio__text-container">
-          <h2 className=" portfolio__title">Марина</h2>
-          <h3 className="portfolio__subtitle">Софт-разработчик </h3>
+          <h2 className=" portfolio__title">Marina</h2>
+          <h3 className="portfolio__subtitle">Software Engineer </h3>
           <p className=" portfolio__text">
-            Я родилась в Москве, закончила факультет экономики МГАУ по
-            специальности "Информационные системы в экономике". Переехала в
-            Израиль, здесь я люблю ходить в длинные пешие прогулки на природу с
-            группой единомышленников. После того как закончила курс получила
-            предложение сделать приложение для местного небольшого бизнеса.
+            This is my final project in the 10-month Full Stack Developer Course
+            at Practicum by Yandex, started in November 2021. During my learning
+            journey I helped other students with questions related to
+            course/sprints assignments and projects. The project's Frontend uses
+            React and the Backend/API uses NodeJS, ExpressJS, MongoDB, Mongoose.
+            Basically, this app allows users to search movies using a public
+            Movies API service. The Practicum's curriculum provided a wide range
+            of projects based on the following Full Stack Development
+            technologies: HTML5, CSS3, flexbox, grid layout, BEM, Media queries,
+            transition, JavaScript/JSX, DOM, Debugging, Git, Github, Figma, Form
+            validation, OOP, Webpack, NPM, Bash, React, React components, React
+            Hooks, NodeJS, ExpressJS, Database, MongoDB, Mongoose.
           </p>
         </div>
         <img className="portfolio__image" src={me} alt="the Author" />
@@ -28,7 +35,7 @@ function Portfolio() {
       >
         Github
       </a>
-      <p className="portfolio__portfolio">Портфолио</p>
+      <p className="portfolio__portfolio">Portfolio</p>
       <ul className="portfolio__links">
         <li className="portfolio__link">
           <a
@@ -37,7 +44,7 @@ function Portfolio() {
             target="_blank"
             rel=" noreferrer"
           >
-            Статичный сайт
+            Static website
           </a>
         </li>
         <li className="portfolio__link">
@@ -47,7 +54,7 @@ function Portfolio() {
             target="_blank"
             rel=" noreferrer"
           >
-            Адаптивный сайт
+            Adaptive layout
           </a>
         </li>
         <li className=" portfolio__link">
@@ -57,7 +64,7 @@ function Portfolio() {
             target="_blank"
             rel=" noreferrer"
           >
-            Одностраничное приложение
+            SPA (Single Page Application)
           </a>
         </li>
       </ul>

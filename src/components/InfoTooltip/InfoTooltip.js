@@ -5,7 +5,7 @@ import "./InfoTooltip.css";
 
 function InfoTooltip({ message, bool, isOpen, onClose }) {
   const image = bool ? `${success}` : `${error}`;
-  const mode = bool ? "Успех" : message;
+  const mode = bool ? "Success" : message;
   return (
     <div className={`overlay ${isOpen && "overlay_active"}`}>
       <div className=" popup_type_message">

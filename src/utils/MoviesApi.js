@@ -11,7 +11,7 @@ class Api {
           return res.json();
         } else
           return Promise.reject(
-            `Произошла ошибка: ${res.status}:${res.statusText}`
+            `Error: ${res.status}:${res.statusText}`
           );
       })
       .catch((err) => alert(`Request failed ${err.status}`));

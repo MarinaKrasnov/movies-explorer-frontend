@@ -93,7 +93,7 @@ function MoviesCardList({
         }`}
       >
         <button className="button" onClick={handleMoreClick}>
-          <p className="movies-card-list__more">Ещё</p>
+          <p className="movies-card-list__more">More</p>
         </button>
       </div>
     </>

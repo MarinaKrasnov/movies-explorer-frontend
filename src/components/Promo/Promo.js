@@ -7,13 +7,13 @@ function Promo() {
     <section className="promo">
       <img className="promo__logo" src={logo} alt="Логотип" />
       <h1 className="promo__title">
-        Учебный проект студента&nbsp;факультета Веб-разработки.
+        Student project for the web development faculty.
       </h1>
       <p className="promo__subtitle">
-        Листайте ниже, чтобы узнать больше про этот проект и его создателя.
+        Scroll down to find out more about this project and its creator.
       </p>
       <a href="#about" className="link promo__link">
-        Узнать больше
+        Tell me more
       </a>
     </section>
   );

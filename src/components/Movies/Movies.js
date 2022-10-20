@@ -22,7 +22,6 @@ function Movies({
   const [isLoading, setIsLoading] = React.useState(false);
   const [isShortfilmSwitchOn, setShortfilmSwitch] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
-  /* const [searchResult, setSearchResult] = React.useState({}); */
   const [filteredMovies, setFilteredMovies] = React.useState([]);
   const [rMovies, setNotFound] = React.useState(true);
   const queryData = localStorage.getItem(`searchResult-${currentUser._id}`);
@@ -42,7 +41,6 @@ function Movies({
   }, [filteredMovies]);
   //Handlers
   const handleSwitch = (value) => {
-    /*    localStorage.setItem(`switch-${currentUser._id}`, value); */
     setShortfilmSwitch(value);
     if (value) {
       const filteredMoviesData = filteredMovies.filter(filterMoviesByDuration);
@@ -82,7 +80,6 @@ function Movies({
         `searchResult-${currentUser._id}`,
         JSON.stringify(searchResultData)
       );
-      /*       setSearchResult(searchResultData); */
     } catch (e) {
       setNotFound(true);
       setFilteredMovies([]);
@@ -104,7 +101,7 @@ function Movies({
         {isLoading ? (
           <Preloader isLoading={isLoading} />
         ) : rMovies ? (
-          <p className="movies__not-found">«Ничего не найдено»</p>
+          <p className="movies__not-found">«Nothing found»</p>
         ) : (
           <MoviesCardList
             movies={filteredMovies}

@@ -4,12 +4,12 @@ import "./Tech.css";
 function Tech() {
   return (
     <section className="section tech">
-      <h2 className="title">Технологии</h2>
+      <h2 className="title">Tech stack</h2>
       <div>
-        <h3 className="tech__title">7 технологий</h3>
+        <h3 className="tech__title">7 technologies</h3>
         <p className="tech__subtitle">
-          На курсе веб-разработки мы освоили технологии, которые применили в
-          дипломном проекте.
+          In this 10-month course we learned the following technologies that
+          were used in the graduation project.
         </p>
       </div>
       <div className="tech__items">

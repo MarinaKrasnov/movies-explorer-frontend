@@ -11,18 +11,18 @@ function Navigation({ isPopupOpen, onClose }) {
       <div className="popup" onClick={(e) => e.stopPropagation()}>
         <div className="navigation__container">
           <Link to="/" className="link" onClick={onClose}>
-            <p>Главная</p>
+            <p>Home</p>
           </Link>
           <Link to="movies" className="link" onClick={onClose}>
-            <p>Фильмы</p>
+            <p>Movies</p>
           </Link>
           <Link to="saved-movies" className="link" onClick={onClose}>
-            <p>Сохранённые фильмы</p>
+            <p>Saved movies</p>
           </Link>
         </div>
         <Link to="profile">
           <button className="button button_type_nav " onClick={onClose}>
-            Аккаунт
+            Account
           </button>
         </Link>
         <button type="button" className="button close-btn" onClick={onClose} />
